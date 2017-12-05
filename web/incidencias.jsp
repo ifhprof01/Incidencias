@@ -97,8 +97,16 @@
                     </fieldset>
                 </form>
                 <form>
+                    <%
+                        IncidenciasCAD iCAD = new IncidenciasCAD();
+                        ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias();
+                        // ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias(null,null,null,null,null,null,null,null,null,null,null,null,null);
+                        int cantidadIncidenciasPorPagina = 20;
+                        int paginaListaIncidencias = 1;
+                        int cantidadPaginasListaIncidencias = 1 + (int) (listaIncidencias.size()/cantidadIncidenciasPorPagina);
+                    %>
                     <fieldset>
-                        <legend>&lt; Pagina 1 &gt;</legend>
+                        <legend>&lt; Pagina <%=paginaListaIncidencias%> de <%=cantidadPaginasListaIncidencias%> &gt;</legend>
                         <table align="center" border="2" cellspacing="0" style="width: 100%">
                             <tr>
                                 <th>Id</th>
@@ -114,9 +122,12 @@
                                 </th>
                             </tr>
                             <%  
-                                IncidenciasCAD iCAD = new IncidenciasCAD();
-                                ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias(null,null,null,null,null,null,null,null,null,null,null,null,null);
-                                for (Incidencia incidencia : listaIncidencias) {
+                                Incidencia incidencia;
+                                int posIni = (paginaListaIncidencias-1) * cantidadIncidenciasPorPagina;
+                                int pos = posIni;
+                                while (listaIncidencias.size() > pos && pos < posIni + cantidadIncidenciasPorPagina) {
+                                    incidencia = listaIncidencias.get(pos);
+                                    pos++;
                                     out.println("<tr>");
                                     out.println("   <td>" + incidencia.getIncidenciaId() + "</td>");
                                     out.println("   <td>" + incidencia.getFechaRegistro() + "</td>");
