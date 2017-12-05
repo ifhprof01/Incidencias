@@ -4,34 +4,17 @@
     Author     : ifontecha
 --%>
 
+<%@page import="incidenciascad.TipoEquipo"%>
+<%@page import="incidenciascad.Usuario"%>
+<%@page import="incidenciascad.Estado"%>
+<%@page import="incidenciascad.Dependencia"%>
 <%@page import="incidenciascad.Incidencia"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="incidenciascad.IncidenciasCAD"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Incidencias - Lista de Incidencias</title>
-        <link href="css/style.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-        <div id="container">
-            <div id="banner">
-                <span>Gestión de Incidencias</span>
-            </div>
-            <div id="menu">
-                <ul>
-                  <li><a class="active" href="#home">Incidencias</a></li>
-                  <li><a href="#news">Tipos de Equipo</a></li>
-                  <li><a href="#contact">Equipos</a></li>
-                  <li><a href="#about">Dependencias</a></li>
-                  <li><a href="#about">Estados</a></li>
-                  <li><a href="#about">Dependencias</a></li>
-                  <li><a href="#about">Configuración</a></li>
-                  <li><a href="#about">Salir (Pepe Ruiz Sol)</a></li>
-                </ul>
-            </div>
+
+<%@include file="includes/cabecera.jsp" %>
+
             <div id="content">
                 <form id="filtro">
                     <fieldset>
@@ -41,44 +24,56 @@
                         <label>Fecha Registro </label><input name="fechaRegistro" type="text" maxlength="10"/>
                         <label>Etiqueta </label><input name="etiqueta" type="text" maxlength="10"/>
                         <label>Estado</label>
-                        <select name="estado">
-                            <option selected="selected" value="Ford">Ford</option>
-                            <option value="Opel">Opel</option>
-                            <option value="Citroen">Citroen</option>
-                            <option value="Bmw">BMW</option>
-                            <option value="Mercedes">Mercedes</option>
-                            <option value="Nissan">AUDI</option>
-                            <option value="Seat">Seat</option>
-                        </select> 
+                        <select name="estadoId">
+                        <%
+                            out.println("<option value=''></option>");
+                            IncidenciasCAD iCAD = new IncidenciasCAD();
+                            ArrayList<Estado> listaEstados = iCAD.leerEstados(null, null, IncidenciasCAD.ESTADO_NOMBRE, IncidenciasCAD.ASCENDENTE);
+                            for (Estado estado : listaEstados) {
+                                out.println("<option value='" + estado.getEstadoId() + "'>");
+                                out.println(estado.getNombre());
+                                out.println("</option>");
+                            }
+                        %>
+                        </select>
                         <label>Dependencia</label>
-                        <select name="dependencia">
-                            <option selected="selected" value="Ford">Ford</option>
-                            <option value="Opel">Opel</option>
-                            <option value="Citroen">Citroen</option>
-                            <option value="Bmw">BMW</option>
-                            <option value="Mercedes">Mercedes</option>
-                            <option value="Nissan">AUDI</option>
-                            <option value="Seat">Seat</option>
-                        </select> 
+                        <select name="dependenciaId">
+                        <%
+                            out.println("<option value=''></option>");
+                            iCAD = new IncidenciasCAD();
+                            ArrayList<Dependencia> listaDependencias = iCAD.leerDependencias(null, null, IncidenciasCAD.DEPENDENCIA_CODIGO, IncidenciasCAD.ASCENDENTE);
+                            for (Dependencia dependencia : listaDependencias) {
+                                out.println("<option value='" + dependencia.getDependenciaId() + "'>");
+                                out.println(dependencia.getCodigo() + " - " + dependencia.getNombre());
+                                out.println("</option>");
+                            }
+                        %>
+                        </select></p>
                         <label>Usuario</label>
-                        <select name="usuario">
-                            <option selected="selected" value="Ford">Ford</option>
-                            <option value="Opel">Opel</option>
-                            <option value="Citroen">CitroenCitroenCitroenCitroenCitroenCitroenCitroenCitroen</option>
-                            <option value="Bmw">BMW</option>
-                            <option value="Mercedes">Mercedes</option>
-                            <option value="Nissan">AUDI</option>
-                            <option value="Seat">Seat</option>
+                        <select name="usuarioId">
+                        <%
+                            out.println("<option value=''></option>");
+                            iCAD = new IncidenciasCAD();
+                            ArrayList<Usuario> listaUsuarios = iCAD.leerUsuarios(null, null, null, null, IncidenciasCAD.USUARIO_CUENTA, IncidenciasCAD.ASCENDENTE);
+                            for (Usuario usuario : listaUsuarios) {
+                                out.println("<option value='" + usuario.getUsuarioId() + "'>");
+                                out.println(usuario.getCuenta());
+                                out.println("</option>");
+                            }
+                        %>
                         </select> 
                         <label>Tipo Equipo</label>
-                        <select name="tipoEquipo">
-                            <option selected="selected" value="Ford">Ford</option>
-                            <option value="Opel">Opel</option>
-                            <option value="Citroen">Citroen</option>
-                            <option value="Bmw">BMW</option>
-                            <option value="Mercedes">Mercedes</option>
-                            <option value="Nissan">AUDI</option>
-                            <option value="Seat">Seat</option>
+                        <select name="tipoEquipoId">
+                        <%
+                            out.println("<option value=''></option>");
+                            iCAD = new IncidenciasCAD();
+                            ArrayList<TipoEquipo> listaTiposEquipo = iCAD.leerTiposEquipo(null, null, IncidenciasCAD.TIPO_EQUIPO_CODIGO, IncidenciasCAD.ASCENDENTE);
+                            for (TipoEquipo tipoEquipo : listaTiposEquipo) {
+                                out.println("<option value='" + tipoEquipo.getTipoEquipoId() + "'>");
+                                out.println(tipoEquipo.getCodigo());
+                                out.println("</option>");
+                            }
+                        %>
                         </select> 
                         <label>Ordenar por</label>
                         <select name="criterioOrdenacion">
@@ -91,14 +86,14 @@
                             <option value="Seat">Seat</option>
                         </select> 
                         <select name="orden">
-                            <option selected="selected" value="Ford">Ascendente</option>
-                            <option value="Opel">Descendente</option>
+                            <option selected="selected" value="<%= IncidenciasCAD.ASCENDENTE%>">Ascendente</option>
+                            <option value="<%= IncidenciasCAD.DESCENDENTE%>">Descendente</option>
                         </select> 
                     </fieldset>
                 </form>
                 <form>
                     <%
-                        IncidenciasCAD iCAD = new IncidenciasCAD();
+                        iCAD = new IncidenciasCAD();
                         ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias();
                         // ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias(null,null,null,null,null,null,null,null,null,null,null,null,null);
                         int cantidadIncidenciasPorPagina = 20;
@@ -138,7 +133,7 @@
                                     out.println("   <td>" + incidencia.getEquipo().getNumeroEtiquetaConsejeria()+ "</td>");
                                     out.println("   <td>" + incidencia.getEquipo().getTipoEquipo().getCodigo() + "</td>");
                                     out.println("   <td>"
-                                            + "<a><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a>&nbsp;&nbsp;"
+                                            + "<a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a>&nbsp;&nbsp;"
                                             + "<a><img src='img/editar.png' alt='Editar Incidencia' title='Editar Incidencia'></a>"
                                             + "</td>");
                                     out.println("</tr>");
@@ -149,10 +144,5 @@
                     </fieldset>
                 </form>
             </div>
-            <div id="footer">
-                <span>IES Miguel Herrero. Curso 2017/2018</span>
-            </div>
-        </div>
 
-    </body>
-</html>
+<%@include file="includes/pie.jsp" %>
