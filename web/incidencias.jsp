@@ -101,7 +101,7 @@
                         int cantidadPaginasListaIncidencias = 1 + (int) (listaIncidencias.size()/cantidadIncidenciasPorPagina);
                     %>
                     <fieldset>
-                        <legend>&lt; Pagina <%=paginaListaIncidencias%> de <%=cantidadPaginasListaIncidencias%> &gt;</legend>
+                        <legend><a><img src='img/izquierda.png' alt='Anterior Pagina' title='Anterior Pagina'></a> Pagina <%=paginaListaIncidencias%> de <%=cantidadPaginasListaIncidencias%> <a><img src='img/derecha.png' alt='Siguiente Pagina' title='Siguiente Pagina'></a></legend>
                         <table align="center" border="2" cellspacing="0" style="width: 100%">
                             <tr>
                                 <th>Id</th>
@@ -134,7 +134,8 @@
                                     out.println("   <td>" + incidencia.getEquipo().getTipoEquipo().getCodigo() + "</td>");
                                     out.println("   <td>"
                                             + "<a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a>&nbsp;&nbsp;"
-                                            + "<a><img src='img/editar.png' alt='Editar Incidencia' title='Editar Incidencia'></a>"
+                                            + "<a><img src='img/editar.png' alt='Editar Incidencia' title='Editar Incidencia'></a>&nbsp;&nbsp;"
+                                            + "<a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a>"
                                             + "</td>");
                                     out.println("</tr>");
                                 } 

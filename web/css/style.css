@@ -54,8 +54,28 @@ body {
     margin-bottom: 5px;
     border-radius: 5px;
 }
-#content h1 {
+#content h2 {
+    text-align: center;
 }
+
+#content p {
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+#content p input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#content p textarea {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
 /*FOOTER*/
 #footer{
     background-color:#eeeeee;

@@ -15,15 +15,26 @@
 
             <div id="content">
                 <h2>Baja de Incidencia</h2>
-                <p><label>Incidencia Id.: </label><input name="incidenciaId" type="text"/></p>
-                <p><label>Fecha de Registro: </label><input name="fechaRegistro" type="text"/></p>
-                <p><label>Tipo de Equipo: </label><input name="tipoEquipoNombre" type="text"/></p>
-                <p><label>Dependencia: </label><input name="codigo" type="text"/> - <input name="nombre" type="text"/></p>
-                <p><label>Posición del Equipo: </label><textarea name="posicionEquipoDependencia" rows="4" cols="50"></textarea></p>
-                <p><label>Usuario: </label><input name="usuarioCuenta" type="text"/> - <input name="usuarioNombreApellido" type="text"/></p>
-                <p><label>Estado: </label><input name="estadoNombre" type="text"/> (<input name="fechaEstadoActual" type="text"/>)</p>
-                <p><label>Descripción de la Incidencia: </label><textarea name="descripcion" rows="4" cols="50"></textarea></p>
-                <p><label>Comentarios del Administrador: </label><textarea name="comentarioAdministrador" rows="4" cols="50"></textarea></p>
+                <p><label>Incidencia Id.: </label></p>
+                <p><input name="incidenciaId" type="text"/></p>
+                <p><label>Fecha de Registro: </label></p>
+                <p><input name="fechaRegistro" type="text"/></p>
+                <p><label>Tipo de Equipo: </label></p>
+                <p><input name="tipoEquipoCodigoNombre" type="text"/></p>
+                <p><label>Dependencia: </label></p>
+                <p><input name="dependenciaCodigoNombre" type="text"/></p>
+                <p><label>Posición del Equipo en la Dependencia: </label></p>
+                <p><textarea name="posicionEquipoDependencia" rows="4"></textarea></p>
+                <p><label>Usuario: </label></p>
+                <p><input name="usuarioCuentaNombreApellido" type="text"/></p>
+                <p><label>Estado: </label></p>
+                <p><input name="estadoNombre" type="text"/></p>
+                <p><label>Fecha de Transicion al Estado Actual: </label></p>
+                <p><input name="fechaEstadoActual" type="text"/></p>
+                <p><label>Descripción de la Incidencia: </label></p>
+                <p><textarea name="descripcion" rows="4"></textarea></p>
+                <p><label>Comentarios del Administrador: </label></p>
+                <p><textarea name="comentarioAdministrador" rows="4"></textarea></p>
             </div>
 
 <%@include file="includes/pie.jsp" %>
