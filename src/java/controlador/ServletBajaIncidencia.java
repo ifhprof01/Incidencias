@@ -7,6 +7,8 @@ package controlador;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +31,17 @@ public class ServletBajaIncidencia extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        try {
+//            IncidenciasCAD iCAD = new IncidenciasCAD();
+//            iCAD.eliminarIncidencia(Integer.parseInt(request.getParameter("incidenciaId")));
+//            request.getRequestDispatcher("listaincidencias.jsp").forward(request, response);
+//        } catch (ExcepcionIncidenciasCAD ex) {
+//            
+//        }
+    
+        ArrayList<String> listaParametros = Collections.list(request.getParameterNames());
+        System.out.println(listaParametros);
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -38,7 +51,8 @@ public class ServletBajaIncidencia extends HttpServlet {
             out.println("<title>Servlet ServletBajaIncidencia</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServletBajaIncidencia at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ServletBajaIncidencia at " + request.getParameter("incidenciaId") + "</h1>");
+            out.println(listaParametros);
             out.println("</body>");
             out.println("</html>");
         }
