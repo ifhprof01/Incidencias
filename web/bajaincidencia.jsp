@@ -4,6 +4,7 @@
     Author     : ifontecha
 --%>
 
+<%@page import="utilidades.Utilidades"%>
 <%@page import="incidenciascad.Dependencia"%>
 <%@page import="incidenciascad.Equipo"%>
 <%@page import="incidenciascad.Incidencia"%>
@@ -14,31 +15,35 @@
 <%@include file="includes/cabecera.jsp" %>
 
             <div id="content">
-                <h2>Baja de Incidencia</h2>
+                <h2 class="formulario">Baja de Incidencia</h2>
                 <%
                     IncidenciasCAD iCAD = new IncidenciasCAD();
                     Incidencia incidencia = iCAD.leerIncidencia(Integer.parseInt(request.getParameter("incidenciaId")));
                 %>
-                <p><label>Incidencia Id.: </label></p>
-                <p><input name="incidenciaId" type="text" value="<%=incidencia.getIncidenciaId()%>"/></p>
-                <p><label>Fecha de Registro: </label></p>
-                <p><input name="fechaRegistro" type="text" value="<%=incidencia.getFechaRegistro()%>"/></p>
-                <p><label>Tipo de Equipo: </label></p>
-                <p><input name="tipoEquipoCodigoNombre" type="text" value="<%=incidencia.getEquipo().getTipoEquipo().getCodigo()%> - <%=incidencia.getEquipo().getTipoEquipo().getNombre()%>"/></p>
-                <p><label>Dependencia: </label></p>
-                <p><input name="dependenciaCodigoNombre" type="text" value="<%=incidencia.getDependencia().getCodigo()%> - <%=incidencia.getDependencia().getNombre()%>"/></p>
-                <p><label>Posición del Equipo en la Dependencia: </label></p>
-                <p><textarea name="posicionEquipoDependencia" rows="4"><%=incidencia.getPosicionEquipoDependencia()%></textarea></p>
-                <p><label>Usuario: </label></p>
-                <p><input name="usuarioCuentaNombreApellido" type="text" value="<%=incidencia.getUsuario().getCuenta()%> - <%=incidencia.getUsuario().getNombre()%> <%=incidencia.getUsuario().getApellido()%>"/></p>
-                <p><label>Estado: </label></p>
-                <p><input name="estadoCodigoNombre" type="text" value="<%=incidencia.getEstado().getCodigo()%> - <%=incidencia.getEstado().getNombre()%>"/></p>
-                <p><label>Fecha de Transicion al Estado Actual: </label></p>
-                <p><input name="fechaEstadoActual" type="text" value="<%=incidencia.getFechaEstadoActual()%>"/></p>
-                <p><label>Descripción de la Incidencia: </label></p>
-                <p><textarea name="descripcion" rows="4"><%=incidencia.getDescripcion()%></textarea></p>
-                <p><label>Comentarios del Administrador: </label></p>
-                <p><textarea name="comentarioAdministrador" rows="4"><%=incidencia.getComentarioAdministrador()%></textarea></p>
+                <p class="formulario"><label>Incidencia Id.: </label></p>
+                <p class="formulario"><input name="incidenciaId" type="text" readonly disabled value="<%=incidencia.getIncidenciaId()%>"/></p>
+                <p class="formulario"><label>Fecha de Registro: </label></p>
+                <p class="formulario"><input name="fechaRegistro" type="text" readonly disabled value="<%=incidencia.getFechaRegistro()%>"/></p>
+                <p class="formulario"><label>Tipo de Equipo: </label></p>
+                <p class="formulario"><input name="tipoEquipoCodigoNombre" type="text" readonly disabled value="<%=incidencia.getEquipo().getTipoEquipo().getCodigo()%> - <%=incidencia.getEquipo().getTipoEquipo().getNombre()%>"/></p>
+                <p class="formulario"><label>Dependencia: </label></p>
+                <p class="formulario"><input name="dependenciaCodigoNombre" type="text" readonly disabled value="<%=incidencia.getDependencia().getCodigo()%> - <%=incidencia.getDependencia().getNombre()%>"/></p>
+                <p class="formulario"><label>Posición del Equipo en la Dependencia: </label></p>
+                <p class="formulario"><textarea name="posicionEquipoDependencia" rows="4" readonly disabled><%=incidencia.getPosicionEquipoDependencia()%></textarea></p>
+                <p class="formulario"><label>Usuario: </label></p>
+                <p class="formulario"><input name="usuarioCuentaNombreApellido" type="text" readonly disabled value="<%=incidencia.getUsuario().getCuenta()%> - <%=incidencia.getUsuario().getNombre()%> <%=incidencia.getUsuario().getApellido()%>"/></p>
+                <p class="formulario"><label>Estado: </label></p>
+                <p class="formulario"><input name="estadoCodigoNombre" type="text" readonly disabled value="<%=incidencia.getEstado().getCodigo()%> - <%=incidencia.getEstado().getNombre()%>"/></p>
+                <p class="formulario"><label>Fecha de Transicion al Estado Actual: </label></p>
+                <p class="formulario"><input name="fechaEstadoActual" type="text" readonly disabled value="<%=incidencia.getFechaEstadoActual()%>"/></p>
+                <p class="formulario"><label>Descripción de la Incidencia: </label></p>
+                <p class="formulario"><textarea name="descripcion" rows="4" readonly disabled><%=incidencia.getDescripcion()%></textarea></p>
+                <p class="formulario"><label>Comentarios del Administrador: </label></p>
+                <p class="formulario"><textarea name="comentarioAdministrador" rows="4" readonly disabled><%=Utilidades.convertirNullAString(incidencia.getComentarioAdministrador())%></textarea></p>
+                <p class="botones">
+                    <a href="listaincidencias.jsp"><input align="center" type="button" value="Cancelar"/></a>
+                    <input type="submit" value="Eliminar"/>
+                </p>
             </div>
 
 <%@include file="includes/pie.jsp" %>

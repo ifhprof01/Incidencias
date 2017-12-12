@@ -10,5 +10,9 @@ package utilidades;
  * @author ifontecha
  */
 public class Utilidades {
-    
+    public static String convertirNullAString(String cadena) {
+        if (cadena == null) return "";
+        if (cadena.equals("null")) return "";
+        return cadena;
+    }
 }

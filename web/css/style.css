@@ -54,27 +54,32 @@ body {
     margin-bottom: 5px;
     border-radius: 5px;
 }
-#content h2 {
+h2.formulario {
     text-align: center;
 }
 
-#content p {
+p.formulario {
     padding-left: 20%;
     padding-right: 20%;
 }
 
-#content p input {
+p.formulario input {
     width: 100%;
     padding: 5px;
     border-radius: 5px;
 }
 
-#content p textarea {
+p.formulario textarea {
     width: 100%;
     padding: 5px;
     border-radius: 5px;
 }
 
+p.botones {
+    padding-left: 20%;
+    padding-right: 20%;
+    text-align: right;
+}
 
 /*FOOTER*/
 #footer{
