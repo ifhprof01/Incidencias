@@ -15,4 +15,12 @@ public class Utilidades {
         if (cadena.equals("null")) return "";
         return cadena;
     }
+    
+    public static String mensajeErrorLog(Integer codigoErrorSistema, String mensajeErrorAdministrador, String sentenciaSQL) {
+        String mensaje = "Código de Error del Sistema: " + codigoErrorSistema + "\n";
+        mensaje = mensaje + "Mensaje de Error del Sistema: " + mensajeErrorAdministrador + "\n";
+        if (sentenciaSQL != null)
+            mensaje = mensaje + "Sentencia SQL que ha producido el error: " + sentenciaSQL + "\n";
+        return mensaje;
+    }
 }

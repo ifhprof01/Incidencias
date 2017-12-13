@@ -17,10 +17,15 @@
             <div id="content">
                 <h2 class="formulario">Baja de Incidencia</h2>
                 <%
+                    String mensajeUsuario = (String)request.getAttribute("mensajeUsuario");
+                    if (mensajeUsuario != null) out.println(mensajeUsuario);
+                %>
+                <%
                     IncidenciasCAD iCAD = new IncidenciasCAD();
                     Incidencia incidencia = iCAD.leerIncidencia(Integer.parseInt(request.getParameter("incidenciaId")));
                 %>
                 <form action="ServletBajaIncidencia" method="get" name="bajaIncidencia">
+                    <input type="hidden" name="incidenciaId" value="<%=incidencia.getIncidenciaId()%>">
                     <p class="formulario"><label>Incidencia Id.: </label></p>
                     <p class="formulario"><input name="incidenciaId" type="text" readonly disabled value="<%=incidencia.getIncidenciaId()%>"/></p>
                     <p class="formulario"><label>Fecha de Registro: </label></p>

@@ -5,14 +5,19 @@
  */
 package controlador;
 
+import incidenciascad.ExcepcionIncidenciasCAD;
+import incidenciascad.IncidenciasCAD;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utilidades.Utilidades;
 
 /**
  *
@@ -31,31 +36,36 @@ public class ServletBajaIncidencia extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        try {
-//            IncidenciasCAD iCAD = new IncidenciasCAD();
-//            iCAD.eliminarIncidencia(Integer.parseInt(request.getParameter("incidenciaId")));
-//            request.getRequestDispatcher("listaincidencias.jsp").forward(request, response);
-//        } catch (ExcepcionIncidenciasCAD ex) {
-//            
-//        }
-    
-        ArrayList<String> listaParametros = Collections.list(request.getParameterNames());
-        System.out.println(listaParametros);
-        
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletBajaIncidencia</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletBajaIncidencia at " + request.getParameter("incidenciaId") + "</h1>");
-            out.println(listaParametros);
-            out.println("</body>");
-            out.println("</html>");
+        try {
+            IncidenciasCAD iCAD = new IncidenciasCAD();
+            iCAD.eliminarIncidencia(Integer.parseInt(request.getParameter("incidenciaId")));
+            request.setAttribute("mensajeUsuario", "Incidencia eliminada correctamente");
+            request.getRequestDispatcher("listaincidencias.jsp").forward(request, response);
+        } catch (ExcepcionIncidenciasCAD ex) {
+            LogManager logManager = LogManager.getLogManager();
+            Logger logger = logManager.getLogger("incidencias");
+            logger.warning(Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL()));
+            request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+            request.getRequestDispatcher("bajaincidencia.jsp").forward(request, response);
         }
+    
+//        ArrayList<String> listaParametros = Collections.list(request.getParameterNames());
+//        System.out.println(listaParametros);
+//        
+//        response.setContentType("text/html;charset=UTF-8");
+//        try (PrintWriter out = response.getWriter()) {
+//            /* TODO output your page here. You may use following sample code. */
+//            out.println("<!DOCTYPE html>");
+//            out.println("<html>");
+//            out.println("<head>");
+//            out.println("<title>Servlet ServletBajaIncidencia</title>");            
+//            out.println("</head>");
+//            out.println("<body>");
+//            out.println("<h1>Servlet ServletBajaIncidencia at " + request.getParameter("incidenciaId") + "</h1>");
+//            out.println(listaParametros);
+//            out.println("</body>");
+//            out.println("</html>");
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -93,6 +93,10 @@
                 </form>
                 <form>
                     <%
+                        String mensajeUsuario = (String)request.getAttribute("mensajeUsuario");
+                        if (mensajeUsuario != null) out.println(mensajeUsuario);
+                    %>
+                    <%
                         iCAD = new IncidenciasCAD();
                         ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias();
                         // ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias(null,null,null,null,null,null,null,null,null,null,null,null,null);
