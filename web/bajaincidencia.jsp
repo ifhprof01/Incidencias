@@ -45,7 +45,7 @@
                     <p class="formulario"><label>Descripción de la Incidencia: </label></p>
                     <p class="formulario"><textarea name="descripcion" rows="4" readonly disabled><%=incidencia.getDescripcion()%></textarea></p>
                     <p class="formulario"><label>Comentarios del Administrador: </label></p>
-                    <p class="formulario"><textarea name="comentarioAdministrador" rows="4" readonly disabled><%=Utilidades.convertirNullAString(incidencia.getComentarioAdministrador())%></textarea></p>
+                    <p class="formulario"><textarea name="comentarioAdministrador" rows="4" readonly disabled><%=Utilidades.convertirNullAStringVacio(incidencia.getComentarioAdministrador())%></textarea></p>
                     <p class="botones">
                         <a href="listaincidencias.jsp"><input align="center" type="button" value="Cancelar"/></a>
                         <input type="submit" value="Eliminar"/>

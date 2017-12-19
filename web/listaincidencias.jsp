@@ -101,7 +101,7 @@
                         ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias();
                         // ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias(null,null,null,null,null,null,null,null,null,null,null,null,null);
                         int cantidadIncidenciasPorPagina = 20;
-                        int paginaListaIncidencias = 1;
+                        int paginaListaIncidencias = 4;
                         int cantidadPaginasListaIncidencias = 1 + (int) (listaIncidencias.size()/cantidadIncidenciasPorPagina);
                     %>
                     <fieldset>
@@ -117,7 +117,7 @@
                                 <th>Etiqueta</th>
                                 <th>Tipo Equipo</th>
                                 <th>
-                                    <a><img src="img/anadir.png" alt="Añadir Incidencia" title="Añadir Incidencia"></a>
+                                    <a href="altaincidencia.jsp"><img src="img/anadir.png" alt="Añadir Incidencia" title="Añadir Incidencia"></a>
                                 </th>
                             </tr>
                             <%  

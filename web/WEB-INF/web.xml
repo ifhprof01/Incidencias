@@ -8,6 +8,14 @@
         <servlet-name>ServletBajaIncidencia</servlet-name>
         <url-pattern>/ServletBajaIncidencia</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletAltaIncidencia</servlet-name>
+        <servlet-class>controlador.ServletAltaIncidencia</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletAltaIncidencia</servlet-name>
+        <url-pattern>/ServletAltaIncidencia</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
