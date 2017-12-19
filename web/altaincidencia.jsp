@@ -17,16 +17,7 @@
 
             <div id="content">
                 <h2>Alta de Incidencia</h2>
-                <%
-                    String mensajeUsuario = (String)request.getAttribute("mensajeUsuario");
-                    if (mensajeUsuario != null) {
-                        out.println(mensajeUsuario);
-                        out.println(request.getAttribute("listaErrores"));
-                        if (Utilidades.convertirStringVacioANull((String) request.getAttribute("listaErrores")) != null) {
-                            out.println(request.getAttribute("listaErrores"));
-                        }
-                    }
-                %>
+<%@include file="includes/mensajeusuario.jsp" %>
                 <form action="ServletAltaIncidencia" method="post">
                     <p class="formulario"><label>Etiqueta del Equipo: </label></p>
                     <p class="formulario"><input name="numeroEtiquetaConsejeria" type="text" value="<%=Utilidades.convertirNullAStringVacio(request.getParameter("numeroEtiquetaConsejeria"))%>" /></p>

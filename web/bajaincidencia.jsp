@@ -16,10 +16,7 @@
 
             <div id="content">
                 <h2 class="formulario">Baja de Incidencia</h2>
-                <%
-                    String mensajeUsuario = (String)request.getAttribute("mensajeUsuario");
-                    if (mensajeUsuario != null) out.println(mensajeUsuario);
-                %>
+<%@include file="includes/mensajeusuario.jsp" %>
                 <%
                     IncidenciasCAD iCAD = new IncidenciasCAD();
                     Incidencia incidencia = iCAD.leerIncidencia(Integer.parseInt(request.getParameter("incidenciaId")));

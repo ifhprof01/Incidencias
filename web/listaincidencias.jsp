@@ -92,16 +92,13 @@
                     </fieldset>
                 </form>
                 <form>
-                    <%
-                        String mensajeUsuario = (String)request.getAttribute("mensajeUsuario");
-                        if (mensajeUsuario != null) out.println(mensajeUsuario);
-                    %>
+<%@include file="includes/mensajeusuario.jsp" %>
                     <%
                         iCAD = new IncidenciasCAD();
                         ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias();
                         // ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias(null,null,null,null,null,null,null,null,null,null,null,null,null);
                         int cantidadIncidenciasPorPagina = 20;
-                        int paginaListaIncidencias = 4;
+                        int paginaListaIncidencias = 1;
                         int cantidadPaginasListaIncidencias = 1 + (int) (listaIncidencias.size()/cantidadIncidenciasPorPagina);
                     %>
                     <fieldset>

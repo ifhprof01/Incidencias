@@ -41,11 +41,13 @@ public class ServletAltaIncidencia extends HttpServlet {
             if (listaErrores.isEmpty()) {
                 request.setAttribute("mensajeUsuario", "Incidencia creada correctamente");
                 request.getRequestDispatcher("listaincidencias.jsp").forward(request, response);
+                
             } else {
                 LogManager logManager = LogManager.getLogManager();
                 Logger logger = logManager.getLogger("incidencias");
                 logger.warning(Utilidades.mensajeErrorLog(-1, "Datos introducidos erróneos",null));
                 request.setAttribute("mensajeUsuario", "El alta no se ha podido realizar. Errores detectados:");
+                request.setAttribute("listaErrores", listaErrores);
                 request.getRequestDispatcher("altaincidencia.jsp").forward(request, response);
             }
         } catch (ExcepcionIncidenciasCAD ex) {
