@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Incidencias - Lista de Incidencias</title>
-        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="css/estilos.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div id="container">

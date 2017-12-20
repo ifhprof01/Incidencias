@@ -5,11 +5,16 @@
  */
 package controlador;
 
+import incidenciascad.Dependencia;
+import incidenciascad.Equipo;
+import incidenciascad.Estado;
 import incidenciascad.ExcepcionIncidenciasCAD;
+import incidenciascad.Incidencia;
 import incidenciascad.IncidenciasCAD;
+import incidenciascad.Usuario;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
+import java.util.Date;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -36,12 +41,22 @@ public class ServletAltaIncidencia extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            IncidenciasCAD iCAD = new IncidenciasCAD();
             ArrayList<String> listaErrores = detectarErroresFormulario(request);
             if (listaErrores.isEmpty()) {
                 request.setAttribute("mensajeUsuario", "Incidencia creada correctamente");
                 request.getRequestDispatcher("listaincidencias.jsp").forward(request, response);
-                
+                IncidenciasCAD iCAD = new IncidenciasCAD();
+                Equipo equipo = iCAD.leerEquipo(request.getParameter("numeroEtiquetaConsejeria"));
+                Incidencia incidencia = new Incidencia();
+                incidencia.setPosicionEquipoDependencia(request.getParameter("posicionEquipoDependencia"));
+                incidencia.setDescripcion(request.getParameter("descripcion"));
+                incidencia.setFechaRegistro(new Date());
+                incidencia.setFechaEstadoActual(new Date());
+                incidencia.setUsuario(new Usuario(1,null,null,null,null));
+                incidencia.setEquipo(equipo);
+                incidencia.setDependencia(new Dependencia(Integer.parseInt(request.getParameter("dependenciaId")),null,null));
+                incidencia.setEstado(new Estado(1,null,null));
+                iCAD.insertarIncidencia(incidencia);
             } else {
                 LogManager logManager = LogManager.getLogManager();
                 Logger logger = logManager.getLogger("incidencias");

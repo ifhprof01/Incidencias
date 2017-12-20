@@ -24,7 +24,7 @@
                     <p class="formulario"><label>Descripción de la Incidencia: </label></p>
                     <p class="formulario"><textarea name="descripcion" rows="4" ><%=Utilidades.convertirNullAStringVacio(request.getParameter("descripcion"))%></textarea></p>
                     <p class="formulario"><label>Dependencia: </label></p>
-                    <select name="dependenciaId">
+                    <p class="formulario"><select name="dependenciaId">
                     <%
                         out.println("<option value=''></option>");
                         IncidenciasCAD iCAD = new IncidenciasCAD();

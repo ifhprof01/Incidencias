@@ -69,6 +69,12 @@ p.formulario input {
     border-radius: 5px;
 }
 
+p.formulario select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 p.formulario textarea {
     width: 100%;
     padding: 5px;
