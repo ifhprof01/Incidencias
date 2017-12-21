@@ -98,7 +98,7 @@
                         ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias();
                         // ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias(null,null,null,null,null,null,null,null,null,null,null,null,null);
                         int cantidadIncidenciasPorPagina = 20;
-                        int paginaListaIncidencias = 1;
+                        int paginaListaIncidencias = 4;
                         int cantidadPaginasListaIncidencias = 1 + (int) (listaIncidencias.size()/cantidadIncidenciasPorPagina);
                     %>
                     <fieldset>
@@ -135,7 +135,7 @@
                                     out.println("   <td>" + incidencia.getEquipo().getTipoEquipo().getCodigo() + "</td>");
                                     out.println("   <td>"
                                             + "<a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a>&nbsp;&nbsp;"
-                                            + "<a><img src='img/editar.png' alt='Editar Incidencia' title='Editar Incidencia'></a>&nbsp;&nbsp;"
+                                            + "<a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a>&nbsp;&nbsp;"
                                             + "<a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a>"
                                             + "</td>");
                                     out.println("</tr>");

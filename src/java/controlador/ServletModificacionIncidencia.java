@@ -13,10 +13,9 @@ import incidenciascad.Incidencia;
 import incidenciascad.IncidenciasCAD;
 import incidenciascad.Usuario;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +26,7 @@ import utilidades.Utilidades;
  *
  * @author ifontecha
  */
-public class ServletAltaIncidencia extends HttpServlet {
+public class ServletModificacionIncidencia extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,33 +43,30 @@ public class ServletAltaIncidencia extends HttpServlet {
         try {
             if (listaErrores.isEmpty()) {
                 IncidenciasCAD iCAD = new IncidenciasCAD();
+                Incidencia incidencia = iCAD.leerIncidencia(Integer.parseInt(request.getParameter("incidenciaId")));
                 Equipo equipo = iCAD.leerEquipo(request.getParameter("numeroEtiquetaConsejeria"));
-                Usuario usuario = new Usuario(1,null,null,null,null);
-                Estado estado = iCAD.leerConfiguracion().get(0).getEstadoInicial();
-                Incidencia incidencia = new Incidencia();
+                Estado estado = new Estado(Integer.parseInt(request.getParameter("estadoId")),null,null);
                 incidencia.setPosicionEquipoDependencia(request.getParameter("posicionEquipoDependencia"));
-                incidencia.setDescripcion(request.getParameter("descripcion"));
-                incidencia.setFechaRegistro(new Date());
-                incidencia.setFechaEstadoActual(new Date());
-                incidencia.setUsuario(usuario);
+                incidencia.setComentarioAdministrador(request.getParameter("comentarioAdministrador"));
                 incidencia.setEquipo(equipo);
+                incidencia.setEstado(estado);
                 incidencia.setDependencia(new Dependencia(Integer.parseInt(request.getParameter("dependenciaId")),null,null));
                 incidencia.setEstado(estado);
-                iCAD.insertarIncidencia(incidencia);
-                request.setAttribute("mensajeUsuario", "Incidencia creada correctamente");
+                iCAD.modificarIncidencia(incidencia.getIncidenciaId(),incidencia);
+                request.setAttribute("mensajeUsuario", "Incidencia modificada correctamente");
                 request.getRequestDispatcher("listaincidencias.jsp").forward(request, response);
             } else {
                 Utilidades.mensajeErrorLog(-1, "Datos introducidos erróneos",null);
-                request.setAttribute("mensajeUsuario", "El alta no se ha podido realizar. Errores detectados:");
+                request.setAttribute("mensajeUsuario", "La modificación no se ha podido realizar. Errores detectados:");
                 request.setAttribute("listaErrores", listaErrores);
-                request.getRequestDispatcher("altaincidencia.jsp").forward(request, response);
+                request.getRequestDispatcher("modificacionincidencia.jsp").forward(request, response);
             }
         } catch (ExcepcionIncidenciasCAD ex) {
                 Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL());
-                request.setAttribute("mensajeUsuario", "El alta no se ha podido realizar. Errores detectados:");
+                request.setAttribute("mensajeUsuario", "La modificación no se ha podido realizar. Errores detectados:");
                 listaErrores.add(ex.getMensajeErrorUsuario());
                 request.setAttribute("listaErrores", listaErrores);
-                request.getRequestDispatcher("altaincidencia.jsp").forward(request, response);
+                request.getRequestDispatcher("modificacionincidencia.jsp").forward(request, response);
         }
     }
 
@@ -131,10 +127,6 @@ public class ServletAltaIncidencia extends HttpServlet {
                 Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(), ex.getSentenciaSQL());
             }
         }
-        if (Utilidades.convertirStringVacioANull(request.getParameter("descripcion")) == null)
-            listaErrores.add("La descripcion de la incidencia es obligatoria");
-        else if (request.getParameter("descripcion").length() > 500)
-            listaErrores.add("La longitud maxima del numero de etiqueta es 500");
         if (Utilidades.convertirStringVacioANull(request.getParameter("dependenciaId")) == null)
             listaErrores.add("La dependencia de la incidencia es obligatoria");
         else if (request.getParameter("dependenciaId").length() > Integer.MAX_VALUE)
@@ -142,6 +134,10 @@ public class ServletAltaIncidencia extends HttpServlet {
         if (Utilidades.convertirStringVacioANull(request.getParameter("posicionEquipoDependencia")) != null)
         if (request.getParameter("posicionEquipoDependencia").length() > 500)
             listaErrores.add("La longitud maxima de la posicion del equipo en la dependencia es 500");
+        if (Utilidades.convertirStringVacioANull(request.getParameter("estadoId")) == null)
+            listaErrores.add("El estado de la incidencia es obligatorio");
+        else if (request.getParameter("estadoId").length() > Integer.MAX_VALUE)
+            listaErrores.add("El valor maximo del identificador de estado es " + Integer.MAX_VALUE);
         return listaErrores;
     }
 

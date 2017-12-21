@@ -4,6 +4,10 @@
         <servlet-name>ServletBajaIncidencia</servlet-name>
         <servlet-class>controlador.ServletBajaIncidencia</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletModificacionIncidencia</servlet-name>
+        <servlet-class>controlador.ServletModificacionIncidencia</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletBajaIncidencia</servlet-name>
         <url-pattern>/ServletBajaIncidencia</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>ServletAltaIncidencia</servlet-name>
         <url-pattern>/ServletAltaIncidencia</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletModificacionIncidencia</servlet-name>
+        <url-pattern>/ServletModificacionIncidencia</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
