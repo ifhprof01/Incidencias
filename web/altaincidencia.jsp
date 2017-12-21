@@ -16,7 +16,7 @@
 <%@include file="includes/cabecera.jsp" %>
 
             <div id="content">
-                <h2>Alta de Incidencia</h2>
+                <h2 class="formulario">Alta de Incidencia</h2>
 <%@include file="includes/mensajeusuario.jsp" %>
                 <form action="ServletAltaIncidencia" method="post">
                     <p class="formulario"><label>Etiqueta del Equipo: </label></p>

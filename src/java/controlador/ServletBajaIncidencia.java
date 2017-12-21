@@ -42,9 +42,7 @@ public class ServletBajaIncidencia extends HttpServlet {
             request.setAttribute("mensajeUsuario", "Incidencia eliminada correctamente");
             request.getRequestDispatcher("listaincidencias.jsp").forward(request, response);
         } catch (ExcepcionIncidenciasCAD ex) {
-            LogManager logManager = LogManager.getLogManager();
-            Logger logger = logManager.getLogger("incidencias");
-            logger.warning(Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL()));
+            Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL());
             request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
             request.getRequestDispatcher("bajaincidencia.jsp").forward(request, response);
         }

@@ -40,36 +40,36 @@ public class ServletAltaIncidencia extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ArrayList<String> listaErrores = detectarErroresFormulario(request);
         try {
-            ArrayList<String> listaErrores = detectarErroresFormulario(request);
             if (listaErrores.isEmpty()) {
-                request.setAttribute("mensajeUsuario", "Incidencia creada correctamente");
-                request.getRequestDispatcher("listaincidencias.jsp").forward(request, response);
                 IncidenciasCAD iCAD = new IncidenciasCAD();
                 Equipo equipo = iCAD.leerEquipo(request.getParameter("numeroEtiquetaConsejeria"));
+                Usuario usuario = new Usuario(1,null,null,null,null);
+                Estado estado = iCAD.leerConfiguracion().get(0).getEstadoInicial();
                 Incidencia incidencia = new Incidencia();
                 incidencia.setPosicionEquipoDependencia(request.getParameter("posicionEquipoDependencia"));
                 incidencia.setDescripcion(request.getParameter("descripcion"));
                 incidencia.setFechaRegistro(new Date());
                 incidencia.setFechaEstadoActual(new Date());
-                incidencia.setUsuario(new Usuario(1,null,null,null,null));
+                incidencia.setUsuario(usuario);
                 incidencia.setEquipo(equipo);
                 incidencia.setDependencia(new Dependencia(Integer.parseInt(request.getParameter("dependenciaId")),null,null));
-                incidencia.setEstado(new Estado(1,null,null));
+                incidencia.setEstado(estado);
                 iCAD.insertarIncidencia(incidencia);
+                request.setAttribute("mensajeUsuario", "Incidencia creada correctamente");
+                request.getRequestDispatcher("listaincidencias.jsp").forward(request, response);
             } else {
-                LogManager logManager = LogManager.getLogManager();
-                Logger logger = logManager.getLogger("incidencias");
-                logger.warning(Utilidades.mensajeErrorLog(-1, "Datos introducidos erróneos",null));
+                Utilidades.mensajeErrorLog(-1, "Datos introducidos erróneos",null);
                 request.setAttribute("mensajeUsuario", "El alta no se ha podido realizar. Errores detectados:");
                 request.setAttribute("listaErrores", listaErrores);
                 request.getRequestDispatcher("altaincidencia.jsp").forward(request, response);
             }
         } catch (ExcepcionIncidenciasCAD ex) {
-                LogManager logManager = LogManager.getLogManager();
-                Logger logger = logManager.getLogger("incidencias");
-                logger.warning(Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL()));
-                request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+                Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL());
+                request.setAttribute("mensajeUsuario", "El alta no se ha podido realizar. Errores detectados:");
+                listaErrores.add(ex.getMensajeErrorUsuario());
+                request.setAttribute("listaErrores", listaErrores);
                 request.getRequestDispatcher("altaincidencia.jsp").forward(request, response);
         }
     }
@@ -119,6 +119,18 @@ public class ServletAltaIncidencia extends HttpServlet {
             listaErrores.add("El numero de etiqueta es obligatorio");
         else if (request.getParameter("numeroEtiquetaConsejeria").length() > 100)
             listaErrores.add("La longitud maxima del numero de etiqueta es 100");
+        else {
+            try {
+                IncidenciasCAD iCAD = new IncidenciasCAD();
+                Equipo equipo = iCAD.leerEquipo(request.getParameter("numeroEtiquetaConsejeria"));
+                if (equipo == null) {
+                    listaErrores.add("El sistema no reconoce la etiqueta del equipo introducida");
+                }
+            } catch(ExcepcionIncidenciasCAD ex) {
+                listaErrores.add(ex.getMensajeErrorUsuario());
+                Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(), ex.getSentenciaSQL());
+            }
+        }
         if (Utilidades.convertirStringVacioANull(request.getParameter("descripcion")) == null)
             listaErrores.add("La descripcion de la incidencia es obligatoria");
         else if (request.getParameter("descripcion").length() > 500)

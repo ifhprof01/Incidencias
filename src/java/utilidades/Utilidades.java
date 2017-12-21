@@ -5,6 +5,9 @@
  */
 package utilidades;
 
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 /**
  *
  * @author ifontecha
@@ -27,6 +30,9 @@ public class Utilidades {
         mensaje = mensaje + "Mensaje de Error del Sistema: " + mensajeErrorAdministrador + "\n";
         if (sentenciaSQL != null)
             mensaje = mensaje + "Sentencia SQL que ha producido el error: " + sentenciaSQL + "\n";
+        LogManager logManager = LogManager.getLogManager();
+        Logger logger = logManager.getLogger("incidencias");
+        logger.warning(mensaje);
         return mensaje;
     }
 }
