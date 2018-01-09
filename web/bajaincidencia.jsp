@@ -4,6 +4,7 @@
     Author     : ifontecha
 --%>
 
+<%@page import="incidenciascad.Historial"%>
 <%@page import="utilidades.Utilidades"%>
 <%@page import="incidenciascad.Dependencia"%>
 <%@page import="incidenciascad.Equipo"%>
@@ -20,6 +21,9 @@
                 <%
                     IncidenciasCAD iCAD = new IncidenciasCAD();
                     Incidencia incidencia = iCAD.leerIncidencia(Integer.parseInt(request.getParameter("incidenciaId")));
+                    incidencia.getHistoriales().get(1).getFecha();
+                    incidencia.getHistoriales().get(1).getEstado();
+                    
                 %>
                 <form action="ServletBajaIncidencia" method="post" name="bajaIncidencia">
                     <input type="hidden" name="incidenciaId" value="<%=incidencia.getIncidenciaId()%>">
@@ -45,6 +49,14 @@
                     <p class="formulario"><textarea name="descripcion" rows="4" readonly disabled><%=incidencia.getDescripcion()%></textarea></p>
                     <p class="formulario"><label>Comentarios del Administrador: </label></p>
                     <p class="formulario"><textarea name="comentarioAdministrador" rows="4" readonly disabled><%=Utilidades.convertirNullAStringVacio(incidencia.getComentarioAdministrador())%></textarea></p>
+                    <p class="formulario"><label>Historial de Estados: </label></p>
+                    <%for (Historial historial : incidencia.getHistoriales()) {
+                        out.println("<p class='formulario'>");
+                        out.print(historial.getFecha() + " -----> ");
+                        out.print(historial.getEstado().getCodigo() + " - " + historial.getEstado().getNombre());
+                        out.println("</p>");
+                    }
+                    %>
                     <p class="botones">
                         <a href="listaincidencias.jsp"><input align="center" type="button" value="Cancelar"/></a>
                         <input type="submit" value="Eliminar"/>

@@ -4,6 +4,7 @@
     Author     : ifontecha
 --%>
 
+<%@page import="incidenciascad.Historial"%>
 <%@page import="incidenciascad.Estado"%>
 <%@page import="utilidades.Utilidades"%>
 <%@page import="incidenciascad.Dependencia"%>
@@ -99,6 +100,14 @@
                         else comentarioAdministrador = incidencia.getComentarioAdministrador();
                     %>
                     <p class="formulario"><textarea name="comentarioAdministrador" rows="4"><%=Utilidades.convertirNullAStringVacio(comentarioAdministrador)%></textarea></p>
+                    <p class="formulario"><label>Historial de Estados: </label></p>
+                    <%for (Historial historial : incidencia.getHistoriales()) {
+                        out.println("<p class='formulario'>");
+                        out.print(historial.getFecha() + " -----> ");
+                        out.print(historial.getEstado().getCodigo() + " - " + historial.getEstado().getNombre());
+                        out.println("</p>");
+                    }
+                    %>
                     <p class="botones">
                         <a href="listaincidencias.jsp"><input align="center" type="button" value="Cancelar"/></a>
                         <input type="submit" value="Modificar"/>
