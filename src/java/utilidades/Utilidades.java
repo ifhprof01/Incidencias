@@ -13,6 +13,11 @@ import java.util.logging.Logger;
  * @author ifontecha
  */
 public class Utilidades {
+    public static String convertirAString(Integer i) {
+        if (i == null) return "";
+        else return i.toString();
+    }
+    
     public static String convertirNullAStringVacio(String cadena) {
         if (cadena == null) return "";
         if (cadena.equals("null")) return "";
