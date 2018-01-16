@@ -21,8 +21,8 @@
                 <%
                     IncidenciasCAD iCAD = new IncidenciasCAD();
                     Incidencia incidencia = iCAD.leerIncidencia(Integer.parseInt(request.getParameter("incidenciaId")));
-                    incidencia.getHistoriales().get(1).getFecha();
-                    incidencia.getHistoriales().get(1).getEstado();
+                    //incidencia.getHistoriales().get(1).getFecha();
+                    //incidencia.getHistoriales().get(1).getEstado();
                     
                 %>
                 <form action="ServletBajaIncidencia" method="post" name="bajaIncidencia">

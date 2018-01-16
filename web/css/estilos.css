@@ -54,6 +54,23 @@ body {
     margin-bottom: 5px;
     border-radius: 5px;
 }
+
+.mensajeCorrecto {
+    display: block;
+    color: green;
+    text-align: center;
+}
+
+.mensajeError {
+    display: block;
+    color: red;
+    text-align: center;
+    list-style: none;
+}
+
+p.derecha {
+    text-align: right;
+}
 h2.formulario {
     text-align: center;
 }
