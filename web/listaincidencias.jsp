@@ -24,18 +24,23 @@
 //                    if (request.getMethod() == "POST") {
                     Integer criterioOrdenacion;
                     Integer orden;
+                    Integer leerCerradas;
                     if (session.getAttribute("criterioOrdenacion") == null) {
                         criterioOrdenacion = IncidenciasCAD.INCIDENCIA_FECHA_REGISTRO;
                         orden = IncidenciasCAD.DESCENDENTE;
+                        leerCerradas = IncidenciasCAD.INCIDENCIA_NO_LEER_CERRADAS;
                     } else {
                         criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacion");
                         orden = (Integer) session.getAttribute("orden");
+                        leerCerradas = (Integer) session.getAttribute("leerCerradas");
                     }
                     if (request.getParameter("actualizarFiltro") != null) {
                         criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacion"));
                         orden = Integer.parseInt(request.getParameter("orden"));
+                        leerCerradas = Integer.parseInt(request.getParameter("leerCerradas"));
                         session.setAttribute("criterioOrdenacion", criterioOrdenacion);
                         session.setAttribute("orden", orden);
+                        session.setAttribute("leerCerradas", leerCerradas);
                         if (!Utilidades.convertirNullAStringVacio(request.getParameter("incidenciaId")).equals("")) {
                             session.setAttribute("incidenciaId", Integer.parseInt(request.getParameter("incidenciaId")));
                         } else {
@@ -87,7 +92,8 @@
                             (Integer)session.getAttribute("dependenciaId"),
                             (Integer)session.getAttribute("estadoId"),
                             criterioOrdenacion,
-                            orden);
+                            orden,
+                            leerCerradas);
                     int cantidadIncidenciasPorPagina = 20;
                     int paginaListaIncidencias = 4;
                     if (request.getParameter("paginaListaIncidencias") == null) {
@@ -113,10 +119,14 @@
                     </legend>
                     <form method="post" action="listaincidencias.jsp">
                         <p class="derecha">
-                            <label>Ordenar por</label>
+                            <label>Mostrar Incidencias Cerradas:</label>
+                            <input type="radio" name="leerCerradas" value="<%=IncidenciasCAD.INCIDENCIA_LEER_CERRADAS%>" <%if (IncidenciasCAD.INCIDENCIA_LEER_CERRADAS == leerCerradas) out.print("checked");%>>Si
+                            <input type="radio" name="leerCerradas" value="<%=IncidenciasCAD.INCIDENCIA_NO_LEER_CERRADAS%>" <%if (IncidenciasCAD.INCIDENCIA_NO_LEER_CERRADAS == leerCerradas) out.print("checked");%>>No
+                            <label> - Ordenar por:</label>
                             <select name="criterioOrdenacion">
                                 <option value="<%=IncidenciasCAD.INCIDENCIA_ID%>" <%if (IncidenciasCAD.INCIDENCIA_ID == criterioOrdenacion) out.print("selected='selected'");%>>Identificador</option>
                                 <option value="<%=IncidenciasCAD.INCIDENCIA_FECHA_REGISTRO %>" <%if (IncidenciasCAD.INCIDENCIA_FECHA_REGISTRO == criterioOrdenacion) out.print("selected='selected'");%>>Fecha de Registro</option>
+                                <option value="<%=IncidenciasCAD.INCIDENCIA_FECHA_CIERRE %>" <%if (IncidenciasCAD.INCIDENCIA_FECHA_CIERRE == criterioOrdenacion) out.print("selected='selected'");%>>Fecha de Cierre</option>
                                 <option value="<%=IncidenciasCAD.INCIDENCIA_DESCRIPCION %>" <%if (IncidenciasCAD.INCIDENCIA_DESCRIPCION == criterioOrdenacion) out.print("selected='selected'");%>>Descrpcion</option>
                                 <option value="<%=IncidenciasCAD.ESTADO_CODIGO %>" <%if (IncidenciasCAD.ESTADO_CODIGO == criterioOrdenacion) out.print("selected='selected'");%>>Estado</option>
                                 <option value="<%=IncidenciasCAD.USUARIO_CUENTA %>" <%if (IncidenciasCAD.USUARIO_CUENTA == criterioOrdenacion) out.print("selected='selected'");%>>Usuario</option>
@@ -134,6 +144,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Fecha Registro</th>
+                                <th>Fecha Cierre</th>
                                 <th>Descripción</th>
                                 <th>Estado</th>
                                 <th>Usuario</th>
@@ -148,6 +159,7 @@
                                 <input type="hidden" name="actualizarFiltro" value="s"/>
                                 <td><input type="number" name="incidenciaId" max="<%=Integer.MAX_VALUE%>" value="<%=Utilidades.convertirAString((Integer)session.getAttribute("incidenciaId"))%>"/></td>
                                 <td><input type="date" name="fechaRegistro" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("fechaRegistro")))%>"/></td>
+                                <td><input type="date" name="fechaCierre" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("fechaCierre")))%>"/></td>
                                 <td><input type="text" name="descripcion" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("descripcion")))%>"/></td>
                                 <td>
                                     <select name="estadoId">
@@ -234,6 +246,11 @@
                                     out.println("<tr>");
                                     out.println("   <td>" + incidencia.getIncidenciaId() + "</td>");
                                     out.println("   <td>" + sdf.format(incidencia.getFechaRegistro()) + "</td>");
+                                    if (incidencia.getFechaCierre() != null) {
+                                        out.println("   <td>" + sdf.format(incidencia.getFechaCierre()) + "</td>");
+                                    } else {
+                                        out.println("   <td>" + "" + "</td>");
+                                    }
                                     out.println("   <td>" + incidencia.getDescripcion() + "</td>");
                                     out.println("   <td>" + incidencia.getEstado().getCodigo() + "</td>");
                                     out.println("   <td>" + incidencia.getUsuario().getCuenta() + "</td>");
