@@ -4,6 +4,7 @@
     Author     : ifontecha
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="utilidades.Utilidades"%>
 <%@page import="incidenciascad.TipoEquipo"%>
@@ -79,7 +80,7 @@
                             (Integer)session.getAttribute("incidenciaId"),
                             null,
                             (String)session.getAttribute("descripcion"),
-                            null,null,null,
+                            null,null,null,null,
                             (Integer)session.getAttribute("usuarioId"),
                             (Integer)session.getAttribute("tipoEquipoId"),
                             (String)session.getAttribute("numeroEtiquetaConsejeria"),
@@ -221,6 +222,10 @@
                             </tr>
                             <%  
                                 Incidencia incidencia;
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.applyPattern("dd/MM/yyyy HH:mm:ss.SS");
+//        Date date = sdf1.parse(strDate);
+//        String string=sdf.format(date);
                                 int posIni = (paginaListaIncidencias-1) * cantidadIncidenciasPorPagina;
                                 int pos = posIni;
                                 while (listaIncidencias.size() > pos && pos < posIni + cantidadIncidenciasPorPagina) {
@@ -228,7 +233,7 @@
                                     pos++;
                                     out.println("<tr>");
                                     out.println("   <td>" + incidencia.getIncidenciaId() + "</td>");
-                                    out.println("   <td>" + incidencia.getFechaRegistro() + "</td>");
+                                    out.println("   <td>" + sdf.format(incidencia.getFechaRegistro()) + "</td>");
                                     out.println("   <td>" + incidencia.getDescripcion() + "</td>");
                                     out.println("   <td>" + incidencia.getEstado().getCodigo() + "</td>");
                                     out.println("   <td>" + incidencia.getUsuario().getCuenta() + "</td>");
