@@ -135,10 +135,10 @@
                                 <option value="<%=IncidenciasCAD.TIPO_EQUIPO_CODIGO %>" <%if (IncidenciasCAD.TIPO_EQUIPO_CODIGO == criterioOrdenacion) out.print("selected='selected'");%>>Tipo de Equipo</option>
                             </select> 
                             <select name="orden">
-                                
                                 <option value="<%= IncidenciasCAD.ASCENDENTE%>" <%if (IncidenciasCAD.ASCENDENTE == orden) out.print("selected='selected'");%>>Ascendente</option>
                                 <option value="<%= IncidenciasCAD.DESCENDENTE%>" <%if (IncidenciasCAD.DESCENDENTE == orden) out.print("selected='selected'");%>>Descendente</option>
                             </select> 
+                            <input type="submit" value="Aplicar Filtro"/>
                         </p>
                         <table align="center" border="2" cellspacing="0" style="width: 100%">
                             <tr>
@@ -230,14 +230,12 @@
                                     %>
                                     </select> 
                                 </td>
-                                <td><input type="submit" value="Aplicar Filtro"/></td>
+                                <td></td>
                             </tr>
                             <%  
                                 Incidencia incidencia;
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        sdf.applyPattern("dd/MM/yyyy HH:mm:ss.SS");
-//        Date date = sdf1.parse(strDate);
-//        String string=sdf.format(date);
+                                SimpleDateFormat sdf = new SimpleDateFormat();
+                                sdf.applyPattern("dd/MM/yyyy HH:mm:ss.SS");
                                 int posIni = (paginaListaIncidencias-1) * cantidadIncidenciasPorPagina;
                                 int pos = posIni;
                                 while (listaIncidencias.size() > pos && pos < posIni + cantidadIncidenciasPorPagina) {
@@ -261,6 +259,7 @@
                                             + "<a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a>&nbsp;&nbsp;"
                                             + "<a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a>&nbsp;&nbsp;"
                                             + "<a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a>"
+                                            + "<a><img src='img/enviar.png' alt='Enviar Incidencia a Empresa Colaboradora' title='Enviar Incidencia a Empresa Colaboradora'></a>"
                                             + "</td>");
                                     out.println("</tr>");
                                 } 
