@@ -8,6 +8,38 @@
         <servlet-name>ServletModificacionIncidencia</servlet-name>
         <servlet-class>controlador.ServletModificacionIncidencia</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletControlAcceso</servlet-name>
+        <servlet-class>controlador.ServletControlAcceso</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletBajaUsuario</servlet-name>
+        <servlet-class>controlador.ServletBajaUsuario</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletModificacionUsuario</servlet-name>
+        <servlet-class>controlador.ServletModificacionUsuario</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletConfiguracion</servlet-name>
+        <servlet-class>controlador.ServletConfiguracion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletAltaEstados</servlet-name>
+        <servlet-class>controlador.ServletAltaEstados</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletBajaEstados</servlet-name>
+        <servlet-class>controlador.ServletBajaEstados</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletModificacionEstados</servlet-name>
+        <servlet-class>controlador.ServletModificacionEstados</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletEnvioEmail</servlet-name>
+        <servlet-class>controlador.ServletEnvioEmail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletBajaIncidencia</servlet-name>
         <url-pattern>/ServletBajaIncidencia</url-pattern>
@@ -16,6 +48,35 @@
         <servlet-name>ServletAltaIncidencia</servlet-name>
         <servlet-class>controlador.ServletAltaIncidencia</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletBajaEquipo</servlet-name>
+        <servlet-class>controlador.ServletBajaEquipo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletBajaDependencia</servlet-name>
+        <servlet-class>controlador.ServletBajaDependencia</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletModificacionDependencia</servlet-name>
+        <servlet-class>controlador.ServletModificacionDependencia</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>ServletAltaDependencia</servlet-name>
+        <servlet-class>controlador.ServletAltaDependencia</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletAltaDependencia</servlet-name>
+        <url-pattern>/ServletAltaDependencia</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletModificacionDependencia</servlet-name>
+        <url-pattern>/ServletModificacionDependencia</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletBajaDependencia</servlet-name>
+        <url-pattern>/ServletBajaDependencia</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletAltaIncidencia</servlet-name>
         <url-pattern>/ServletAltaIncidencia</url-pattern>
@@ -23,6 +84,76 @@
     <servlet-mapping>
         <servlet-name>ServletModificacionIncidencia</servlet-name>
         <url-pattern>/ServletModificacionIncidencia</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletControlAcceso</servlet-name>
+        <url-pattern>/ServletControlAcceso</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletAltaTipoEquipo</servlet-name>
+        <servlet-class>controlador.ServletAltaTipoEquipo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletAltaTipoEquipo</servlet-name>
+        <url-pattern>/ServletAltaTipoEquipo</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ServletModificacionTipoEquipo</servlet-name>
+        <servlet-class>controlador.ServletModificacionTipoEquipo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletModificacionEquipo</servlet-name>
+        <servlet-class>controlador.ServletModificacionEquipo</servlet-class>
+    </servlet>
+     <servlet>
+        <servlet-name>ServletAltaEquipo</servlet-name>
+        <servlet-class>controlador.ServletAltaEquipo</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ServletModificacionTipoEquipo</servlet-name>
+        <url-pattern>/ServletModificacionTipoEquipo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletBajaUsuario</servlet-name>
+        <url-pattern>/ServletBajaUsuario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletModificacionUsuario</servlet-name>
+        <url-pattern>/ServletModificacionUsuario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletConfiguracion</servlet-name>
+        <url-pattern>/ServletConfiguracion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletAltaEstados</servlet-name>
+        <url-pattern>/ServletAltaEstados</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletBajaEstados</servlet-name>
+        <url-pattern>/ServletBajaEstados</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletModificacionEstados</servlet-name>
+        <url-pattern>/ServletModificacionEstados</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletEnvioEmail</servlet-name>
+        <url-pattern>/ServletEnvioEmail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletBajaEquipo</servlet-name>
+        <url-pattern>/ServletBajaEquipo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletModificacionEquipo</servlet-name>
+        <url-pattern>/ServletModificacionEquipo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletAltaEquipo</servlet-name>
+        <url-pattern>/ServletAltaEquipo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

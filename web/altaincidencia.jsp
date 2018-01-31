@@ -6,6 +6,7 @@
 
 <%@page import="utilidades.Utilidades"%>
 <%@page import="java.util.Collections"%>
+<%@page import="incidenciascad.Usuario"%>
 <%@page import="incidenciascad.Dependencia"%>
 <%@page import="incidenciascad.Equipo"%>
 <%@page import="incidenciascad.Incidencia"%>

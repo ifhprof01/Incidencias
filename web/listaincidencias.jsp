@@ -21,19 +21,22 @@
             <div id="content">
 <%@include file="includes/mensajeusuario.jsp" %>
                 <%
-//                    if (request.getMethod() == "POST") {
+                    // Establecimiento del criterio de ordenación,el orden y el filtro de leer cerradas
                     Integer criterioOrdenacion;
                     Integer orden;
                     Integer leerCerradas;
                     if (session.getAttribute("criterioOrdenacion") == null) {
+                        // Si no hay nun atributo de sesión que almacene el criterio de ordenación se establecen los valores por defecto
                         criterioOrdenacion = IncidenciasCAD.INCIDENCIA_FECHA_REGISTRO;
                         orden = IncidenciasCAD.DESCENDENTE;
                         leerCerradas = IncidenciasCAD.INCIDENCIA_NO_LEER_CERRADAS;
                     } else {
+                        // Si sí hay nun atributo de sesión que almacene el criterio de ordenación se establecen los valores establecidos para la sesión
                         criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacion");
                         orden = (Integer) session.getAttribute("orden");
                         leerCerradas = (Integer) session.getAttribute("leerCerradas");
                     }
+                    // Actualización de las variables de sesión que almacenan los filtros, criterio de ordenación y orden en el caso de que se llegue al presente JSP desde el propio JSP (que es el único que contiene un parámetro denominado criterioOrdenacion) 
                     if (request.getParameter("actualizarFiltro") != null) {
                         criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacion"));
                         orden = Integer.parseInt(request.getParameter("orden"));
@@ -77,10 +80,8 @@
                             session.removeAttribute("tipoEquipoId");
                         }
                     }
+                    // Se leen las incidencias con los filtros establecidos
                     IncidenciasCAD iCAD = new IncidenciasCAD();
-                    //ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias();
-                    //out.println("criterioOrdenacion: " + criterioOrdenacion);
-                    //out.println("orden " + orden);
                     ArrayList<Incidencia> listaIncidencias = iCAD. leerIncidencias(
                             (Integer)session.getAttribute("incidenciaId"),
                             null,
@@ -94,6 +95,7 @@
                             criterioOrdenacion,
                             orden,
                             leerCerradas);
+                    // Se determinan las páginas que se necesitan para mostrar todas las incidencias
                     int cantidadIncidenciasPorPagina = 20;
                     int paginaListaIncidencias = 4;
                     if (request.getParameter("paginaListaIncidencias") == null) {
@@ -151,13 +153,16 @@
                                 <th>Dependencia</th>
                                 <th>Etiqueta</th>
                                 <th>Tipo Equipo</th>
-                                <th>
+                                <th class="sinbordes">
                                     <a href="altaincidencia.jsp"><img src="img/anadir.png" alt="Añadir Incidencia" title="Añadir Incidencia"></a>
                                 </th>
+                                <th class="sinbordes"></th>
+                                <th class="sinbordes"></th>
+                                <th class="sinbordes"></th>
                             </tr>
                             <tr>
                                 <input type="hidden" name="actualizarFiltro" value="s"/>
-                                <td><input type="number" name="incidenciaId" max="<%=Integer.MAX_VALUE%>" value="<%=Utilidades.convertirAString((Integer)session.getAttribute("incidenciaId"))%>"/></td>
+                                <td><input class="anchopequeno" type="number" name="incidenciaId" max="<%=Integer.MAX_VALUE%>" value="<%=Utilidades.convertirAString((Integer)session.getAttribute("incidenciaId"))%>"/></td>
                                 <td><input type="date" name="fechaRegistro" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("fechaRegistro")))%>"/></td>
                                 <td><input type="date" name="fechaCierre" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("fechaCierre")))%>"/></td>
                                 <td><input type="text" name="descripcion" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("descripcion")))%>"/></td>
@@ -212,7 +217,7 @@
                                     %>
                                     </select>
                                 </td>
-                                <td><input type="text" name="numeroEtiquetaConsejeria" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("numeroEtiquetaConsejeria")))%>"/></td>
+                                <td><input class="anchopequeno" type="text" name="numeroEtiquetaConsejeria" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("numeroEtiquetaConsejeria")))%>"/></td>
                                 <td>
                                     <select name="tipoEquipoId">
                                     <%
@@ -230,7 +235,10 @@
                                     %>
                                     </select> 
                                 </td>
-                                <td></td>
+                                <td class="sinbordes"></td>
+                                <td class="sinbordes"></td>
+                                <td class="sinbordes"></td>
+                                <td class="sinbordes"></td>
                             </tr>
                             <%  
                                 Incidencia incidencia;
@@ -249,18 +257,28 @@
                                     } else {
                                         out.println("   <td>" + "" + "</td>");
                                     }
-                                    out.println("   <td>" + incidencia.getDescripcion() + "</td>");
+                                    if (incidencia.getDescripcion().length() <= 22) {
+                                        out.println("   <td>" + incidencia.getDescripcion() + "</td>");
+                                    } else {
+                                        out.println("   <td>" + incidencia.getDescripcion().substring(0, 21) + "...</td>");
+                                    }
                                     out.println("   <td>" + incidencia.getEstado().getCodigo() + "</td>");
                                     out.println("   <td>" + incidencia.getUsuario().getCuenta() + "</td>");
                                     out.println("   <td>" + incidencia.getDependencia().getCodigo() + "</td>");
                                     out.println("   <td>" + incidencia.getEquipo().getNumeroEtiquetaConsejeria()+ "</td>");
                                     out.println("   <td>" + incidencia.getEquipo().getTipoEquipo().getCodigo() + "</td>");
-                                    out.println("   <td>"
-                                            + "<a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a>&nbsp;&nbsp;"
-                                            + "<a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a>&nbsp;&nbsp;"
-                                            + "<a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a>"
-                                            + "<a><img src='img/enviar.png' alt='Enviar Incidencia a Empresa Colaboradora' title='Enviar Incidencia a Empresa Colaboradora'></a>"
-                                            + "</td>");
+                                    out.println("   "
+                                            + "<td class='sinbordes'><a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a></td>"
+                                            + "<td class='sinbordes'><a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a></td>"
+                                            + "<td class='sinbordes'><a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a></td>"
+                                            + "<td class='sinbordes'><a href='envioemail.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/enviar.png' alt='Enviar Incidencia a Empresa Colaboradora' title='Enviar Incidencia a Empresa Colaboradora'></a></td>"
+                                            + "");
+//                                    out.println("   <td>"
+//                                            + "<a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a>&nbsp;&nbsp;"
+//                                            + "<a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a>&nbsp;&nbsp;"
+//                                            + "<a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a>"
+//                                            + "<a href='envioemail.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/enviar.png' alt='Enviar Incidencia a Empresa Colaboradora' title='Enviar Incidencia a Empresa Colaboradora'></a>"
+//                                            + "</td>");
                                     out.println("</tr>");
                                 } 
 

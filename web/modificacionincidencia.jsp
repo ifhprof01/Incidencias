@@ -7,6 +7,7 @@
 <%@page import="incidenciascad.Historial"%>
 <%@page import="incidenciascad.Estado"%>
 <%@page import="utilidades.Utilidades"%>
+<%@page import="incidenciascad.Usuario"%>
 <%@page import="incidenciascad.Dependencia"%>
 <%@page import="incidenciascad.Equipo"%>
 <%@page import="incidenciascad.Incidencia"%>

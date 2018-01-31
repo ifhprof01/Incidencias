@@ -35,6 +35,7 @@ body {
     text-align: center;
     padding: 4px 6px;
     text-decoration: none;
+    font-weight: bold;
 }
 
 
@@ -44,7 +45,7 @@ body {
 }
 
 .active {
-    background-color:#4CAF50;
+    background-color:#22aaff;
 }
 
 /*MAIN CONTENT*/
@@ -68,9 +69,19 @@ body {
     list-style: none;
 }
 
+.sinbordes {
+    border-left-style: none;
+    border-right-style: none;
+}
+
 p.derecha {
     text-align: right;
 }
+
+.anchopequeno {
+    width: 90%;
+}
+
 h2.formulario {
     text-align: center;
 }
