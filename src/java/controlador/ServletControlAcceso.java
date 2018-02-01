@@ -78,7 +78,8 @@ public class ServletControlAcceso extends HttpServlet {
                 if (listaUsuarios.isEmpty()) throw new Exception("No se puede leer un usuario que se acaba de crear");
             }
             usuario = listaUsuarios.get(0);
-            Boolean admin = ((String )m.get("title")).equals("AI");
+            Boolean admin = false;
+            if (m.get("title") != null) admin = ((String )m.get("title")).equals("AI");
             
             HttpSession session = request.getSession(true);
             session.setAttribute("usuarioSesion", usuario);
