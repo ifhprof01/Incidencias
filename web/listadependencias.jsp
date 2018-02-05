@@ -89,6 +89,7 @@
                                 <option value="<%= IncidenciasCAD.ASCENDENTE%>" <%if (IncidenciasCAD.ASCENDENTE == orden) out.print("selected='selected'");%>>Ascendente</option>
                                 <option value="<%= IncidenciasCAD.DESCENDENTE%>" <%if (IncidenciasCAD.DESCENDENTE == orden) out.print("selected='selected'");%>>Descendente</option>
                             </select> 
+                            <input type="submit" value="Aplicar Filtro"/>
                         </p>
                         <table align="center" border="2" cellspacing="0" style="width: 100%">
                             <tr>
@@ -102,7 +103,7 @@
                                 <input type="hidden" name="actualizarFiltro" value="s"/>
                                 <td><input type="text" name="codigo" value="<%=Utilidades.convertirNullAStringVacio((String)session.getAttribute("codigo"))%>"/></td>
                                 <td><input type="text" name="nombre" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("nombre")))%>"/></td>
-                                <td><input type="submit" value="Aplicar Filtro"/></td>
+                                <td></td>
                             </tr>
                             <%  
                                 Dependencia dependencia;

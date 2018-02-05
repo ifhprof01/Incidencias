@@ -5,8 +5,17 @@
  */
 package utilidades;
 
+import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -39,5 +48,48 @@ public class Utilidades {
         Logger logger = logManager.getLogger("incidencias");
         logger.warning(mensaje);
         return mensaje;
+    }
+    
+    public static void enviarCorreo(String usuarioDe, 
+                                    String contrasenaUsuarioDe,
+                                    String mailSmtpStarttlsEnable,
+                                    String mailSmtpAuth,
+                                    String mailSmtpHost,
+                                    String mailSmtpPort,
+                                    String usuarioA,
+                                    String asunto,
+                                    String cuerpo) {
+
+        Properties propiedades = new Properties();
+        propiedades.put("mail.smtp.starttls.enable", mailSmtpStarttlsEnable);
+        propiedades.put("mail.smtp.auth", mailSmtpAuth);
+        propiedades.put("mail.smtp.host", mailSmtpHost);
+        propiedades.put("mail.smtp.port", mailSmtpPort);
+
+        Authenticator autenticador = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(usuarioDe, contrasenaUsuarioDe);
+            }
+          };
+        Session sesion = Session.getInstance(propiedades,autenticador);
+
+        try {
+
+            Message mensaje = new MimeMessage(sesion);
+            InternetAddress iaDe = new InternetAddress(usuarioDe);
+            mensaje.setFrom(iaDe);
+            InternetAddress[] iaA = InternetAddress.parse(usuarioA);
+            mensaje.setRecipients(Message.RecipientType.TO,iaA);
+            mensaje.setSubject(asunto);
+            mensaje.setText(cuerpo);
+
+            Transport.send(mensaje);
+
+            System.out.println("Mansaje enviado");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

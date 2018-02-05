@@ -1,9 +1,10 @@
 <%-- 
-    Document   : index.jsp
+    Document   : listaincidencias.jsp
     Created on : 03-dic-2017, 11:35:42
     Author     : ifontecha
 --%>
 
+<%@page import="java.sql.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="utilidades.Utilidades"%>
@@ -49,6 +50,16 @@
                         } else {
                             session.removeAttribute("incidenciaId");
                         }
+                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("fechaRegistro")).equals("")) {
+                            session.setAttribute("fechaRegistro", Date.valueOf(request.getParameter("fechaRegistro")));
+                        } else {
+                            session.removeAttribute("fechaRegistro");
+                        }
+                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("fechaCierre")).equals("")) {
+                            session.setAttribute("fechaCierre", Date.valueOf(request.getParameter("fechaCierre")));
+                        } else {
+                            session.removeAttribute("fechaCierre");
+                        }
                         if (!Utilidades.convertirNullAStringVacio(request.getParameter("descripcion")).equals("")) {
                             session.setAttribute("descripcion", request.getParameter("descripcion"));
                         } else {
@@ -82,12 +93,20 @@
                     }
                     // Se leen las incidencias con los filtros establecidos
                     IncidenciasCAD iCAD = new IncidenciasCAD();
+                    Integer usuarioId;
+                    if ((Boolean)session.getAttribute("admin"))
+                        usuarioId = (Integer)session.getAttribute("usuarioId");
+                    else 
+                        usuarioId = usuarioSesion.getUsuarioId();
                     ArrayList<Incidencia> listaIncidencias = iCAD. leerIncidencias(
                             (Integer)session.getAttribute("incidenciaId"),
                             null,
                             (String)session.getAttribute("descripcion"),
-                            null,null,null,null,
-                            (Integer)session.getAttribute("usuarioId"),
+                            null,
+                            (Date)session.getAttribute("fechaRegistro"),
+                            (Date)session.getAttribute("fechaCierre"),
+                            null,
+                            usuarioId,
                             (Integer)session.getAttribute("tipoEquipoId"),
                             (String)session.getAttribute("numeroEtiquetaConsejeria"),
                             (Integer)session.getAttribute("dependenciaId"),
@@ -163,8 +182,8 @@
                             <tr>
                                 <input type="hidden" name="actualizarFiltro" value="s"/>
                                 <td><input class="anchopequeno" type="number" name="incidenciaId" max="<%=Integer.MAX_VALUE%>" value="<%=Utilidades.convertirAString((Integer)session.getAttribute("incidenciaId"))%>"/></td>
-                                <td><input type="date" name="fechaRegistro" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("fechaRegistro")))%>"/></td>
-                                <td><input type="date" name="fechaCierre" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("fechaCierre")))%>"/></td>
+                                <td><input type="date" name="fechaRegistro" value="<%=(Date)session.getAttribute("fechaRegistro")%>"/></td>
+                                <td><input type="date" name="fechaCierre" value="<%=(Date)session.getAttribute("fechaCierre")%>"/></td>
                                 <td><input type="text" name="descripcion" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("descripcion")))%>"/></td>
                                 <td>
                                     <select name="estadoId">
@@ -184,7 +203,11 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="usuarioId">
+                                    <% if((Boolean)session.getAttribute("admin")) {%>
+                                        <select name="usuarioId">
+                                    <% } else {%>
+                                        <select name="usuarioId" disabled>
+                                    <% } %>
                                     <%
                                         out.println("<option value=''></option>");
                                         iCAD = new IncidenciasCAD();
@@ -267,18 +290,17 @@
                                     out.println("   <td>" + incidencia.getDependencia().getCodigo() + "</td>");
                                     out.println("   <td>" + incidencia.getEquipo().getNumeroEtiquetaConsejeria()+ "</td>");
                                     out.println("   <td>" + incidencia.getEquipo().getTipoEquipo().getCodigo() + "</td>");
-                                    out.println("   "
-                                            + "<td class='sinbordes'><a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a></td>"
-                                            + "<td class='sinbordes'><a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a></td>"
-                                            + "<td class='sinbordes'><a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a></td>"
-                                            + "<td class='sinbordes'><a href='envioemail.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/enviar.png' alt='Enviar Incidencia a Empresa Colaboradora' title='Enviar Incidencia a Empresa Colaboradora'></a></td>"
-                                            + "");
-//                                    out.println("   <td>"
-//                                            + "<a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a>&nbsp;&nbsp;"
-//                                            + "<a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a>&nbsp;&nbsp;"
-//                                            + "<a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a>"
-//                                            + "<a href='envioemail.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/enviar.png' alt='Enviar Incidencia a Empresa Colaboradora' title='Enviar Incidencia a Empresa Colaboradora'></a>"
-//                                            + "</td>");
+                                    if((Boolean)session.getAttribute("admin"))
+                                        out.println("   "
+                                                + "<td class='sinbordes'><a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a></td>"
+                                                + "<td class='sinbordes'><a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a></td>"
+                                                + "<td class='sinbordes'><a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a></td>"
+                                                + "<td class='sinbordes'><a href='envioemail.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/enviar.png' alt='Enviar Incidencia a Empresa Colaboradora' title='Enviar Incidencia a Empresa Colaboradora'></a></td>"
+                                                + "");
+                                    else
+                                        out.println("   "
+                                                + "<td class='sinbordes'><a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a></td>"
+                                                + "");
                                     out.println("</tr>");
                                 } 
 
