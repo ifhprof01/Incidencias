@@ -94,11 +94,11 @@
                     // Se leen las incidencias con los filtros establecidos
                     IncidenciasCAD iCAD = new IncidenciasCAD();
                     Integer usuarioId;
-                    if ((Boolean)session.getAttribute("admin"))
+                    if (admin)
                         usuarioId = (Integer)session.getAttribute("usuarioId");
                     else 
                         usuarioId = usuarioSesion.getUsuarioId();
-                    ArrayList<Incidencia> listaIncidencias = iCAD. leerIncidencias(
+                    ArrayList<Incidencia> listaIncidencias = iCAD.leerIncidencias(
                             (Integer)session.getAttribute("incidenciaId"),
                             null,
                             (String)session.getAttribute("descripcion"),
@@ -203,7 +203,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <% if((Boolean)session.getAttribute("admin")) {%>
+                                    <% if(admin) {%>
                                         <select name="usuarioId">
                                     <% } else {%>
                                         <select name="usuarioId" disabled>
@@ -290,7 +290,7 @@
                                     out.println("   <td>" + incidencia.getDependencia().getCodigo() + "</td>");
                                     out.println("   <td>" + incidencia.getEquipo().getNumeroEtiquetaConsejeria()+ "</td>");
                                     out.println("   <td>" + incidencia.getEquipo().getTipoEquipo().getCodigo() + "</td>");
-                                    if((Boolean)session.getAttribute("admin"))
+                                    if(admin)
                                         out.println("   "
                                                 + "<td class='sinbordes'><a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a></td>"
                                                 + "<td class='sinbordes'><a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a></td>"

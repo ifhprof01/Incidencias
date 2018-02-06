@@ -17,6 +17,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@include file="includes/cabecera.jsp" %>
+<%@include file="includes/soloadministradores.jsp" %>
 
             <div id="content">
                 <h2 class="formulario">Baja de Tipo Equipo</h2>

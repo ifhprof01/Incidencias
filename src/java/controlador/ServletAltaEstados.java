@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import utilidades.Utilidades;
 
 /**
@@ -41,8 +42,6 @@ public class ServletAltaEstados extends HttpServlet {
                 Estado estado = new Estado();
                 estado.setCodigo(request.getParameter("estadoCodigo"));
                 estado.setNombre(request.getParameter("estadoNombre"));
-System.out.println(request.getParameter("estadoCodigo"));
-System.out.println(estado);
                 iCAD.insertarEstado(estado);
                 request.setAttribute("mensajeUsuario", "Estado creado correctamente");
                 request.getRequestDispatcher("listaestados.jsp").forward(request, response);

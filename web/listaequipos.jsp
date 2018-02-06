@@ -13,6 +13,8 @@
 <%@page import="utilidades.Utilidades"%>
 <%@page import="incidenciascad.IncidenciasCAD"%>
 <%@include file="includes/cabecera.jsp" %>
+<%@include file="includes/soloadministradores.jsp" %>
+
 <div id="content">
     <%@include file="includes/mensajeusuario.jsp" %>
     <%//                    if (request.getMethod() == "POST") {

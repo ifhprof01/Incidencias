@@ -3,15 +3,13 @@ package controlador;
 import incidenciascad.ExcepcionIncidenciasCAD;
 import incidenciascad.IncidenciasCAD;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import utilidades.ExcepcionIncidencias;
 import utilidades.Utilidades;
 
 /**
@@ -39,6 +37,7 @@ public class ServletBajaDependencia extends HttpServlet {
         } catch (ExcepcionIncidenciasCAD ex) {
             Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL());
             request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", new ArrayList());
             request.getRequestDispatcher("bajadependencia.jsp").forward(request, response);
         }
     }
