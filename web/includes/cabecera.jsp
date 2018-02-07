@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="utilidades.Utilidades"%>
+<%@page import="incidenciascad.Usuario"%>
 <%@page import="java.lang.Boolean"%>
 <!DOCTYPE html>
 <html>
@@ -18,10 +21,14 @@
                         if (usuarioSesion != null) {
                             if (usuarioSesion.getNombre() != null) 
                                 nombreCompletoUsuario = usuarioSesion.getNombre() + " " + usuarioSesion.getApellido();
-                            else nombreCompletoUsuario = usuarioSesion.getCuenta();
+                            else 
+                                nombreCompletoUsuario = usuarioSesion.getCuenta();
                         }
                         else {
-                            //Lanzar error de no autenticación
+                            Utilidades.mensajeErrorLog(1, "Intento de acceso a la aplicación sin objetos de sesión asociados a la autenticación", null);
+                            request.setAttribute("mensajeUsuario", "Acceso no autorizado");
+                            request.setAttribute("listaErrores", new ArrayList());
+                            request.getRequestDispatcher("index.jsp").forward(request, response);
                         }
                         Boolean admin = (Boolean) session.getAttribute("admin");
                         if (admin) {

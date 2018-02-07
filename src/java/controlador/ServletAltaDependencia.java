@@ -45,10 +45,12 @@ public class ServletAltaDependencia extends HttpServlet {
         ArrayList<String> listaErrores = new ArrayList();
         try {
             HttpSession session = request.getSession(true);
-            Usuario usuario = (Usuario)session.getAttribute("usuarioSesion");
+            Usuario usuarioSesion = (Usuario)session.getAttribute("usuarioSesion");
             Boolean admin = (Boolean)session.getAttribute("admin");
+            if (usuarioSesion == null || admin == null) throw new ExcepcionIncidencias(1,"Acceso no autorizado",
+                        "Intento de acceso a la aplicación sin objetos de sesión asociados a la autenticación");
             if (!admin) throw new ExcepcionIncidencias(1,"Acceso no autorizado",
-                        "Intento de acceso no autorizado a alta de dependencia por el usuario " + usuario.getCuenta());
+                        "Intento de acceso no autorizado a " + request.getRequestURI() + " por el usuario " + usuarioSesion.getCuenta());
             listaErrores = detectarErroresFormulario(request);
             if (listaErrores.isEmpty()) {
                 IncidenciasCAD iCAD = new IncidenciasCAD();

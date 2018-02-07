@@ -29,5 +29,6 @@
                     </p>
                 </form>
             </div>
+<%throw new Exception("kk");%>
 
 <%@include file="includes/pie.jsp" %>

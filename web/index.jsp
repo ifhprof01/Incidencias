@@ -14,7 +14,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@include file="includes/cabeceraindex.jsp" %>
-
             <div id="content">
 <%@include file="includes/mensajeusuario.jsp" %>
                 <form action="ServletControlAcceso" method="post">
