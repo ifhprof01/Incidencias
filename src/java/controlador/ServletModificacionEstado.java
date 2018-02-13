@@ -16,13 +16,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utilidades.ExcepcionIncidencias;
 import utilidades.Utilidades;
 
 /**
  *
  * @author Alberto Martínez - Pilar Sánchez
  */
-public class ServletModificacionEstados extends HttpServlet {
+public class ServletModificacionEstado extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,8 +36,10 @@ public class ServletModificacionEstados extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<String> listaErrores = detectarErroresFormulario(request);
+        ArrayList<String> listaErrores = new ArrayList();
         try {
+            Utilidades.verificarAdministrador(request);
+            listaErrores = detectarErroresFormulario(request);
             if (listaErrores.isEmpty()) {
                 IncidenciasCAD iCAD = new IncidenciasCAD();
                 Estado estado = iCAD.leerEstado(Integer.parseInt(request.getParameter("estadoId")));
@@ -52,11 +55,21 @@ public class ServletModificacionEstados extends HttpServlet {
                 request.getRequestDispatcher("modificacionestado.jsp").forward(request, response);
             }
         } catch (ExcepcionIncidenciasCAD ex) {
-                Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL());
-                request.setAttribute("mensajeUsuario", "La modificacion no se ha podido realizar. Errores detectados:");
-                listaErrores.add(ex.getMensajeErrorUsuario());
-                request.setAttribute("listaErrores", listaErrores);
-                request.getRequestDispatcher("modificacionestado.jsp").forward(request, response);
+            Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL());
+            request.setAttribute("mensajeUsuario", "La modificacion no se ha podido realizar. Errores detectados:");
+            listaErrores.add(ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", listaErrores);
+            request.getRequestDispatcher("modificacionestado.jsp").forward(request, response);
+        } catch (ExcepcionIncidencias ex) {
+            Utilidades.mensajeErrorLog(ex.getCodigoError(), ex.getMensajeErrorAdministrador(), null);
+            request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Utilidades.mensajeErrorLog(-1, ex.getMessage(), null);
+            request.setAttribute("mensajeUsuario", "Error general del sistema. Consulte al administrador");
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
 

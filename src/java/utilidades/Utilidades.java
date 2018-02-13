@@ -5,6 +5,7 @@
  */
 package utilidades;
 
+import incidenciascad.Usuario;
 import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -16,6 +17,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -91,5 +94,23 @@ public class Utilidades {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void verificarAdministrador(HttpServletRequest request) throws ExcepcionIncidencias {
+        HttpSession session = request.getSession(true);
+        Usuario usuarioSesion = (Usuario)session.getAttribute("usuarioSesion");
+        Boolean admin = (Boolean)session.getAttribute("admin");
+        if (usuarioSesion == null || admin == null) throw new ExcepcionIncidencias(1,"Acceso no autorizado",
+                    "Intento de acceso a la aplicación sin objetos de sesión asociados a la autenticación");
+        if (!admin) throw new ExcepcionIncidencias(1,"Acceso no autorizado",
+                    "Intento de acceso no autorizado a " + request.getRequestURI() + " por el usuario " + usuarioSesion.getCuenta());
+    }
+    
+    public static void verificarUsuario(HttpServletRequest request) throws ExcepcionIncidencias {
+        HttpSession session = request.getSession(true);
+        Usuario usuarioSesion = (Usuario)session.getAttribute("usuarioSesion");
+        Boolean admin = (Boolean)session.getAttribute("admin");
+        if (usuarioSesion == null || admin == null) throw new ExcepcionIncidencias(1,"Acceso no autorizado",
+                    "Intento de acceso a la aplicación sin objetos de sesión asociados a la autenticación");
     }
 }

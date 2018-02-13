@@ -16,6 +16,7 @@
 <%@include file="includes/cabeceraindex.jsp" %>
             <div id="content">
 <%@include file="includes/mensajeusuario.jsp" %>
+                <% session.invalidate(); %>
                 <form action="ServletControlAcceso" method="post">
                     <p class="formulario"><label>Usuario: </label></p>
                     <p class="formulario"><input name="usuario" type="text"/></p>

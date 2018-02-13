@@ -17,7 +17,7 @@
             <div id="content">
                 <h2 class="formulario">Alta de Estado</h2>
 <%@include file="includes/mensajeusuario.jsp" %>
-                <form action="ServletAltaEstados" method="post">
+                <form action="ServletAltaEstado" method="post">
                     <p class="formulario"><label>Código del Estado: </label></p>
                     <p class="formulario"><input name="estadoCodigo" type="text" value="<%=Utilidades.convertirNullAStringVacio(request.getParameter("estadoCodigo"))%>" /></p>
                     <p class="formulario"><label>Nombre del Estado: </label></p>

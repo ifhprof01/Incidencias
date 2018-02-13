@@ -30,6 +30,7 @@ public class ServletBajaDependencia extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            Utilidades.verificarAdministrador(request);
             IncidenciasCAD iCAD = new IncidenciasCAD();
             iCAD.eliminarDependencia(Integer.parseInt(request.getParameter("dependenciaId")));
             request.setAttribute("mensajeUsuario", "Dependencia eliminada correctamente");
@@ -39,6 +40,16 @@ public class ServletBajaDependencia extends HttpServlet {
             request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
             request.setAttribute("listaErrores", new ArrayList());
             request.getRequestDispatcher("bajadependencia.jsp").forward(request, response);
+        } catch (ExcepcionIncidencias ex) {
+            Utilidades.mensajeErrorLog(ex.getCodigoError(), ex.getMensajeErrorAdministrador(), null);
+            request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Utilidades.mensajeErrorLog(-1, ex.getMessage(), null);
+            request.setAttribute("mensajeUsuario", "Error general del sistema. Consulte al administrador");
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
 

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utilidades.ExcepcionIncidencias;
 import utilidades.Utilidades;
 
 /**
@@ -35,8 +36,10 @@ public class ServletAltaEquipo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<String> listaErrores = detectarErroresFormulario(request);
+        ArrayList<String> listaErrores = new ArrayList();
         try {
+            Utilidades.verificarAdministrador(request);
+            listaErrores = detectarErroresFormulario(request);
             if (listaErrores.isEmpty()) {
                 IncidenciasCAD iCAD = new IncidenciasCAD();
                 Equipo equipo =new Equipo();          
@@ -59,6 +62,16 @@ public class ServletAltaEquipo extends HttpServlet {
             listaErrores.add(ex.getMensajeErrorUsuario());
             request.setAttribute("listaErrores", listaErrores);
             request.getRequestDispatcher("altaequipo.jsp").forward(request, response);
+        } catch (ExcepcionIncidencias ex) {
+            Utilidades.mensajeErrorLog(ex.getCodigoError(), ex.getMensajeErrorAdministrador(), null);
+            request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Utilidades.mensajeErrorLog(-1, ex.getMessage(), null);
+            request.setAttribute("mensajeUsuario", "Error general del sistema. Consulte al administrador");
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
 

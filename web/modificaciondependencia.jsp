@@ -19,6 +19,12 @@
                 <%
                     IncidenciasCAD iCAD = new IncidenciasCAD();
                     Dependencia dependencia = iCAD.leerDependencia(Integer.parseInt(request.getParameter("dependenciaId")));
+                    if (dependencia == null) {
+                            Utilidades.mensajeErrorLog(1, "Intento de acceso a " + request.getRequestURI() + "?" + request.getQueryString() + " .El dato al quie se pretende acceder no existe en la base de datos", null);
+                            request.setAttribute("mensajeUsuario", "La dependencia no existe");
+                            request.setAttribute("listaErrores", new ArrayList());
+                            request.getRequestDispatcher("listadependencias.jsp").forward(request, response);
+                    }
                 %>
                 <form action="ServletModificacionDependencia" method="post" name="modificacionDependencia">
                     <input type="hidden" name="dependenciaId" value="<%=dependencia.getDependenciaId()%>">

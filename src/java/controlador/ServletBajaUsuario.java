@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utilidades.ExcepcionIncidencias;
 import utilidades.Utilidades;
 
 /**
@@ -40,18 +41,27 @@ public class ServletBajaUsuario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<String> listaErrores = new ArrayList();
         try {
+            Utilidades.verificarAdministrador(request);
             IncidenciasCAD iCAD = new IncidenciasCAD();
             iCAD.eliminarUsuario(Integer.parseInt(request.getParameter("usuarioId")));
             request.setAttribute("mensajeUsuario", "Usuario eliminado correctamente");
             request.getRequestDispatcher("listausuarios.jsp").forward(request, response);
         } catch (ExcepcionIncidenciasCAD ex) {
-            listaErrores.add(ex.getMensajeErrorUsuario());
             Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL());
-            request.setAttribute("mensajeUsuario", "La elimininación no se ha podido realizar. Errores detectados:");
-            request.setAttribute("listaErrores", listaErrores);
+            request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", new ArrayList());
             request.getRequestDispatcher("bajausuario.jsp").forward(request, response);
+        } catch (ExcepcionIncidencias ex) {
+            Utilidades.mensajeErrorLog(ex.getCodigoError(), ex.getMensajeErrorAdministrador(), null);
+            request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Utilidades.mensajeErrorLog(-1, ex.getMessage(), null);
+            request.setAttribute("mensajeUsuario", "Error general del sistema. Consulte al administrador");
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
 

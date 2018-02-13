@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.naming.AuthenticationException;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,46 +41,67 @@ public class ServletControlAcceso extends HttpServlet {
             throws ServletException, IOException {
         
         try {
-            IncidenciasCAD iCAD = new IncidenciasCAD();
-            ArrayList<Configuracion> listaConfiguracion = iCAD.leerConfiguracion();
-            if (listaConfiguracion.isEmpty()) throw new Exception("No hay registros en la tabla configuracion de la base de datos");
-            Configuracion configuracion = listaConfiguracion.get(0);
-            System.out.println(configuracion);
-            Autenticador a = new Autenticador(
-                    configuracion.getLdapDominio(),
-                    configuracion.getLdapUrl(),
-                    configuracion.getLdapDn()
-//                    "iesmhp.local", "ldap://10.0.1.48","dc=iesmhp,dc=local"
-            );
-//            String atributos[] = {"title", "givenName", "mail", "sn", "name", "department"};
-
-            String atributos[] = {configuracion.getLdapAtributoPerfil(), configuracion.getLdapAtributoCuenta(), configuracion.getLdapAtributoNombre(), configuracion.getLdapAtributoApellido(), configuracion.getLdapAtributoDepartamento()};
-            System.out.println(atributos);
-
             String cuenta = request.getParameter("usuario");
             String contrasena = request.getParameter("contrasena");
-//            String cuenta = "juanitades";
-//            String contrasena = "usuario@1";
-            Map m = a.autenticar(cuenta, contrasena, atributos);
-            
-            System.out.println(m);
 
+            IncidenciasCAD iCAD = new IncidenciasCAD();
             Usuario usuario;
+            Boolean admin;
             ArrayList<Usuario> listaUsuarios = iCAD.leerUsuarios(cuenta, null, null, null, null, null);
-            if (listaUsuarios.isEmpty()) {
-                usuario = new Usuario();
-                usuario.setCuenta(cuenta);
-                usuario.setNombre((String )m.get("name"));
-                usuario.setApellido((String )m.get("sn"));
-                usuario.setDepartamento((String )m.get("department"));
-                System.out.println(usuario);
-                iCAD.insertarUsuario(usuario);
-                listaUsuarios = iCAD.leerUsuarios(cuenta, null, null, null, null, null);
-                if (listaUsuarios.isEmpty()) throw new Exception("No se puede leer un usuario que se acaba de crear");
+
+            ServletContext contextoAplicacion = request.getServletContext();
+            String usuarioEmergencia = contextoAplicacion.getInitParameter("usuarioEmergencia");
+            String contrasenaEmergencia = contextoAplicacion.getInitParameter("contrasenaEmergencia");
+            
+            if (cuenta.equals(usuarioEmergencia) && contrasena.equals(contrasenaEmergencia)) {
+                if (listaUsuarios.isEmpty()) {
+                    usuario = new Usuario();
+                    usuario.setCuenta(cuenta);
+                    usuario.setNombre("Administrador");
+                    usuario.setApellido("Emergencia");
+                    usuario.setDepartamento("Desconocido");
+                    System.out.println(usuario);
+                    iCAD.insertarUsuario(usuario);
+                    listaUsuarios = iCAD.leerUsuarios(cuenta, null, null, null, null, null);
+                    if (listaUsuarios.isEmpty()) throw new Exception("No se puede leer un usuario que se acaba de crear");
+                }
+                usuario = listaUsuarios.get(0);
+                admin = true;
+            } else {
+                ArrayList<Configuracion> listaConfiguracion = iCAD.leerConfiguracion();
+                if (listaConfiguracion.isEmpty()) throw new Exception("No hay registros en la tabla configuracion de la base de datos");
+                Configuracion configuracion = listaConfiguracion.get(0);
+                System.out.println(configuracion);
+                Autenticador a = new Autenticador(
+                        configuracion.getLdapDominio(),
+                        configuracion.getLdapUrl(),
+                        configuracion.getLdapDn()
+    //                    "iesmhp.local", "ldap://10.0.1.48","dc=iesmhp,dc=local"
+                );
+
+                String atributos[] = {configuracion.getLdapAtributoPerfil(), configuracion.getLdapAtributoCuenta(), configuracion.getLdapAtributoNombre(), configuracion.getLdapAtributoApellido(), configuracion.getLdapAtributoDepartamento()};
+    //            String atributos[] = {"title", "givenName", "mail", "sn", "name", "department"};
+                System.out.println(atributos);
+
+                Map m = a.autenticar(cuenta, contrasena, atributos);
+
+                System.out.println(m);
+                if (listaUsuarios.isEmpty()) {
+                    usuario = new Usuario();
+                    usuario.setCuenta(cuenta);
+                    usuario.setNombre((String )m.get("name"));
+                    usuario.setApellido((String )m.get("sn"));
+                    usuario.setDepartamento((String )m.get("department"));
+                    System.out.println(usuario);
+                    iCAD.insertarUsuario(usuario);
+                    listaUsuarios = iCAD.leerUsuarios(cuenta, null, null, null, null, null);
+                    if (listaUsuarios.isEmpty()) throw new Exception("No se puede leer un usuario que se acaba de crear");
+                }
+                usuario = listaUsuarios.get(0);
+                admin = false;
+                if (m.get("title") != null) admin = ((String )m.get("title")).equals("AI");
             }
-            usuario = listaUsuarios.get(0);
-            Boolean admin = false;
-            if (m.get("title") != null) admin = ((String )m.get("title")).equals("AI");
+
             
             HttpSession session = request.getSession(true);
             session.setAttribute("usuarioSesion", usuario);
@@ -93,23 +115,6 @@ public class ServletControlAcceso extends HttpServlet {
 
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-        
-                        
-
-//
-//        response.setContentType("text/html;charset=UTF-8");
-//        try (PrintWriter out = response.getWriter()) {
-//        /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet ServletControlAcceso</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet ServletControlAcceso at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -19,7 +19,6 @@
             <div id="content">
 <%@include file="includes/mensajeusuario.jsp" %>
                 <%
-//                    if (request.getMethod() == "POST") {
                     Integer criterioOrdenacion;
                     Integer orden;
                     if (session.getAttribute("criterioOrdenacion") == null) {

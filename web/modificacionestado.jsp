@@ -22,7 +22,7 @@
                     IncidenciasCAD iCAD = new IncidenciasCAD();
                     Estado estado = iCAD.leerEstado(Integer.parseInt(request.getParameter("estadoId")));
                 %>
-                <form action="ServletModificacionEstados" method="post">
+                <form action="ServletModificacionEstado" method="post">
                     <input type="hidden" name="estadoId" value="<%=estado.getEstadoId()%>">
                     <p class="formulario"><label>Código del Estado: </label></p>
                     <p class="formulario"><input name="estadoCodigo" type="text" value="<%=estado.getCodigo()%>" /></p>

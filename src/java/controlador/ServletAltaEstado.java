@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import incidenciascad.Estado;
 import incidenciascad.ExcepcionIncidenciasCAD;
 import incidenciascad.IncidenciasCAD;
 import java.io.IOException;
@@ -13,14 +14,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import utilidades.ExcepcionIncidencias;
 import utilidades.Utilidades;
 
 /**
  *
- * @author usuario
+ * @author Alberto Martínez - Pilar Sánchez
  */
-public class ServletBajaEquipo extends HttpServlet {
+public class ServletAltaEstado extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,17 +35,30 @@ public class ServletBajaEquipo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         try {
+        ArrayList<String> listaErrores = new ArrayList();
+        try {
             Utilidades.verificarAdministrador(request);
-            IncidenciasCAD iCAD = new IncidenciasCAD();
-            iCAD.eliminarEquipo(Integer.parseInt(request.getParameter("equipoId")));
-            request.setAttribute("mensajeUsuario", "Equipo eliminado correctamente");
-            request.getRequestDispatcher("listaequipos.jsp").forward(request, response);
+            listaErrores = detectarErroresFormulario(request);
+            if (listaErrores.isEmpty()) {
+                IncidenciasCAD iCAD = new IncidenciasCAD();
+                Estado estado = new Estado();
+                estado.setCodigo(request.getParameter("estadoCodigo"));
+                estado.setNombre(request.getParameter("estadoNombre"));
+                iCAD.insertarEstado(estado);
+                request.setAttribute("mensajeUsuario", "Estado creado correctamente");
+                request.getRequestDispatcher("listaestados.jsp").forward(request, response);
+            } else {
+                Utilidades.mensajeErrorLog(-1, "Datos introducidos erróneos",null);
+                request.setAttribute("mensajeUsuario", "El alta no se ha podido realizar. Errores detectados:");
+                request.setAttribute("listaErrores", listaErrores);
+                request.getRequestDispatcher("altaestado.jsp").forward(request, response);
+            }
         } catch (ExcepcionIncidenciasCAD ex) {
             Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL());
-            request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
-            request.setAttribute("listaErrores", new ArrayList());
-            request.getRequestDispatcher("bajaequipo.jsp").forward(request, response);
+            request.setAttribute("mensajeUsuario", "El alta no se ha podido realizar. Errores detectados:");
+            listaErrores.add(ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", listaErrores);
+            request.getRequestDispatcher("altaestado.jsp").forward(request, response);
         } catch (ExcepcionIncidencias ex) {
             Utilidades.mensajeErrorLog(ex.getCodigoError(), ex.getMensajeErrorAdministrador(), null);
             request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
@@ -95,5 +110,18 @@ public class ServletBajaEquipo extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    protected ArrayList<String> detectarErroresFormulario(HttpServletRequest request) {
+        ArrayList<String> listaErrores = new ArrayList();
+        if (Utilidades.convertirStringVacioANull(request.getParameter("estadoCodigo")) == null)
+            listaErrores.add("El código del estado es obligatorio");
+        else if (request.getParameter("estadoCodigo").length() > 10)
+            listaErrores.add("La longitud maxima del código de estado es 10");
+        if (Utilidades.convertirStringVacioANull(request.getParameter("estadoNombre")) == null)
+            listaErrores.add("El nombre del estado es obligatorio");
+        else if (request.getParameter("estadoNombre").length() > 100)
+            listaErrores.add("La longitud maxima del nombre de estado es 100");
+        return listaErrores;
+    }
 
 }

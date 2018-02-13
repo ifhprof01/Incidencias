@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <param-name>usuarioEmergencia</param-name>
+        <param-value>admin</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contrasenaEmergencia</param-name>
+        <param-value>kk</param-value>
+    </context-param>
     <servlet>
         <servlet-name>ServletBajaIncidencia</servlet-name>
         <servlet-class>controlador.ServletBajaIncidencia</servlet-class>
@@ -25,16 +33,16 @@
         <servlet-class>controlador.ServletConfiguracion</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ServletAltaEstados</servlet-name>
-        <servlet-class>controlador.ServletAltaEstados</servlet-class>
+        <servlet-name>ServletAltaEstado</servlet-name>
+        <servlet-class>controlador.ServletAltaEstado</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ServletBajaEstados</servlet-name>
-        <servlet-class>controlador.ServletBajaEstados</servlet-class>
+        <servlet-name>ServletBajaEstado</servlet-name>
+        <servlet-class>controlador.ServletBajaEstado</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ServletModificacionEstados</servlet-name>
-        <servlet-class>controlador.ServletModificacionEstados</servlet-class>
+        <servlet-name>ServletModificacionEstado</servlet-name>
+        <servlet-class>controlador.ServletModificacionEstado</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServletEnvioEmail</servlet-name>
@@ -60,7 +68,6 @@
         <servlet-name>ServletModificacionDependencia</servlet-name>
         <servlet-class>controlador.ServletModificacionDependencia</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>ServletAltaDependencia</servlet-name>
         <servlet-class>controlador.ServletAltaDependencia</servlet-class>
@@ -97,7 +104,6 @@
         <servlet-name>ServletAltaTipoEquipo</servlet-name>
         <url-pattern>/ServletAltaTipoEquipo</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>ServletModificacionTipoEquipo</servlet-name>
         <servlet-class>controlador.ServletModificacionTipoEquipo</servlet-class>
@@ -106,11 +112,10 @@
         <servlet-name>ServletModificacionEquipo</servlet-name>
         <servlet-class>controlador.ServletModificacionEquipo</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>ServletAltaEquipo</servlet-name>
         <servlet-class>controlador.ServletAltaEquipo</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>ServletModificacionTipoEquipo</servlet-name>
         <url-pattern>/ServletModificacionTipoEquipo</url-pattern>
@@ -128,16 +133,16 @@
         <url-pattern>/ServletConfiguracion</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ServletAltaEstados</servlet-name>
-        <url-pattern>/ServletAltaEstados</url-pattern>
+        <servlet-name>ServletAltaEstado</servlet-name>
+        <url-pattern>/ServletAltaEstado</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ServletBajaEstados</servlet-name>
-        <url-pattern>/ServletBajaEstados</url-pattern>
+        <servlet-name>ServletBajaEstado</servlet-name>
+        <url-pattern>/ServletBajaEstado</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ServletModificacionEstados</servlet-name>
-        <url-pattern>/ServletModificacionEstados</url-pattern>
+        <servlet-name>ServletModificacionEstado</servlet-name>
+        <url-pattern>/ServletModificacionEstado</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ServletEnvioEmail</servlet-name>
@@ -160,4 +165,12 @@
             30
         </session-timeout>
     </session-config>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/errorexcepcion.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error404.jsp</location>
+    </error-page>
 </web-app>

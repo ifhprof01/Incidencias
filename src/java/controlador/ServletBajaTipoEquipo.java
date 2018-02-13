@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utilidades.ExcepcionIncidencias;
 import utilidades.Utilidades;
 
 /**
@@ -36,6 +37,7 @@ public class ServletBajaTipoEquipo extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            Utilidades.verificarAdministrador(request);
             IncidenciasCAD iCAD = new IncidenciasCAD();
             iCAD.eliminarTipoEquipo(Integer.parseInt(request.getParameter("tipoEquipoId")));
             request.setAttribute("mensajeUsuario", "Tipo Equipo eliminado correctamente");
@@ -43,7 +45,18 @@ public class ServletBajaTipoEquipo extends HttpServlet {
         } catch (ExcepcionIncidenciasCAD ex) {
             Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(),ex.getSentenciaSQL());
             request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", new ArrayList());
             request.getRequestDispatcher("bajatipoequipo.jsp").forward(request, response);
+        } catch (ExcepcionIncidencias ex) {
+            Utilidades.mensajeErrorLog(ex.getCodigoError(), ex.getMensajeErrorAdministrador(), null);
+            request.setAttribute("mensajeUsuario", ex.getMensajeErrorUsuario());
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Utilidades.mensajeErrorLog(-1, ex.getMessage(), null);
+            request.setAttribute("mensajeUsuario", "Error general del sistema. Consulte al administrador");
+            request.setAttribute("listaErrores", new ArrayList());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
     

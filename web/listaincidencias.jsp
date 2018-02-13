@@ -294,12 +294,12 @@
                                         out.println("   "
                                                 + "<td class='sinbordes'><a href='bajaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a></td>"
                                                 + "<td class='sinbordes'><a href='modificacionincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a></td>"
-                                                + "<td class='sinbordes'><a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a></td>"
+                                                + "<td class='sinbordes'><a href='consultaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a></td>"
                                                 + "<td class='sinbordes'><a href='envioemail.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/enviar.png' alt='Enviar Incidencia a Empresa Colaboradora' title='Enviar Incidencia a Empresa Colaboradora'></a></td>"
                                                 + "");
                                     else
                                         out.println("   "
-                                                + "<td class='sinbordes'><a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a></td>"
+                                                + "<td class='sinbordes'><a href='consultaincidencia.jsp?incidenciaId="+incidencia.getIncidenciaId()+"'><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a></td>"
                                                 + "");
                                     out.println("</tr>");
                                 } 
