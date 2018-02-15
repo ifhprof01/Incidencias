@@ -60,7 +60,6 @@ public class ServletControlAcceso extends HttpServlet {
                     usuario.setNombre("Administrador");
                     usuario.setApellido("Emergencia");
                     usuario.setDepartamento("Desconocido");
-                    System.out.println(usuario);
                     iCAD.insertarUsuario(usuario);
                     listaUsuarios = iCAD.leerUsuarios(cuenta, null, null, null, null, null);
                     if (listaUsuarios.isEmpty()) throw new Exception("No se puede leer un usuario que se acaba de crear");
@@ -71,7 +70,6 @@ public class ServletControlAcceso extends HttpServlet {
                 ArrayList<Configuracion> listaConfiguracion = iCAD.leerConfiguracion();
                 if (listaConfiguracion.isEmpty()) throw new Exception("No hay registros en la tabla configuracion de la base de datos");
                 Configuracion configuracion = listaConfiguracion.get(0);
-                System.out.println(configuracion);
                 Autenticador a = new Autenticador(
                         configuracion.getLdapDominio(),
                         configuracion.getLdapUrl(),
@@ -81,18 +79,15 @@ public class ServletControlAcceso extends HttpServlet {
 
                 String atributos[] = {configuracion.getLdapAtributoPerfil(), configuracion.getLdapAtributoCuenta(), configuracion.getLdapAtributoNombre(), configuracion.getLdapAtributoApellido(), configuracion.getLdapAtributoDepartamento()};
     //            String atributos[] = {"title", "givenName", "mail", "sn", "name", "department"};
-                System.out.println(atributos);
 
                 Map m = a.autenticar(cuenta, contrasena, atributos);
 
-                System.out.println(m);
                 if (listaUsuarios.isEmpty()) {
                     usuario = new Usuario();
                     usuario.setCuenta(cuenta);
                     usuario.setNombre((String )m.get("name"));
                     usuario.setApellido((String )m.get("sn"));
                     usuario.setDepartamento((String )m.get("department"));
-                    System.out.println(usuario);
                     iCAD.insertarUsuario(usuario);
                     listaUsuarios = iCAD.leerUsuarios(cuenta, null, null, null, null, null);
                     if (listaUsuarios.isEmpty()) throw new Exception("No se puede leer un usuario que se acaba de crear");

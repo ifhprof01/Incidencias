@@ -89,8 +89,6 @@ public class Utilidades {
 
             Transport.send(mensaje);
 
-            System.out.println("Mansaje enviado");
-
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
