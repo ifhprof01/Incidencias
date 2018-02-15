@@ -117,9 +117,9 @@
                                     out.println("   <td>" + tipoEquipo.getCodigo()+ "</td>");
                                     out.println("   <td>" + tipoEquipo.getNombre()+ "</td>");
                                     out.println("   <td>"
-                                            + "<a href='bajatipoequipo.jsp?tipoEquipoId="+tipoEquipo.getTipoEquipoId()+"'><img src='img/borrar.png' alt='Borrar Incidencia' title='Borrar Incidencia'></a>&nbsp;&nbsp;"
-                                            + "<a href='modificaciontipoequipo.jsp?tipoEquipoId="+tipoEquipo.getTipoEquipoId()+"'><img src='img/editar.png' alt='Modificar Incidencia' title='Modificar Incidencia'></a>&nbsp;&nbsp;"
-                                            + "<a><img src='img/detalle.png' alt='Ver Detalle de Incidencia' title='Ver Detalle de Incidencia'></a>"
+                                            + "<a href='bajatipoequipo.jsp?tipoEquipoId="+tipoEquipo.getTipoEquipoId()+"'><img src='img/borrar.png' alt='Borrar Tipo de Equipo' title='Borrar Tipo de Equipo'></a>&nbsp;&nbsp;"
+                                            + "<a href='modificaciontipoequipo.jsp?tipoEquipoId="+tipoEquipo.getTipoEquipoId()+"'><img src='img/editar.png' alt='Modificar Tipo de Equipo' title='Modificar Tipo de Equipo'></a>&nbsp;&nbsp;"
+                                            + "<a href='consultatipoequipo.jsp?tipoEquipoId="+tipoEquipo.getTipoEquipoId()+"'><img src='img/detalle.png' alt='Ver Detalle de Tipo de Equipo' title='Ver Detalle de Tipo de Equipo'></a>"
                                             + "</td>");
                                     out.println("</tr>");
                                 } 

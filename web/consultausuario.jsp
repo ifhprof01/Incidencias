@@ -19,7 +19,7 @@
 <%@include file="includes/soloadministradores.jsp" %>
 
             <div id="content">
-                <h2 class="formulario">Baja de Usuario</h2>
+                <h2 class="formulario">Consulta de Usuario</h2>
 <%@include file="includes/mensajeusuario.jsp" %>
                 <%
                     IncidenciasCAD iCAD = new IncidenciasCAD();
@@ -29,7 +29,7 @@
                     usuario.getApellido();
                     usuario.getDepartamento();
                 %>
-                <form action="ServletBajaUsuario" method="post" name="bajaUsuario">
+                <form name="consultaUsuario">
                     <input type="hidden" name="usuarioId" value="<%=usuario.getUsuarioId()%>">
                     <p class="formulario"><label>Cuenta de usuario: </label></p>
                     <p class="formulario"><input name="cuenta" type="text" readonly disabled value="<%=Utilidades.convertirNullAStringVacio(usuario.getCuenta())%>"/></p>
@@ -40,8 +40,7 @@
                     <p class="formulario"><label>Departamento </label></p>
                     <p class="formulario"><input name="departamento" type="text" readonly disabled value="<%=Utilidades.convertirNullAStringVacio(usuario.getDepartamento())%>"/></p>
                      <p class="botones">
-                        <a href="listausuarios.jsp"><input align="center" type="button" value="Cancelar"/></a>
-                        <input type="submit" value="Eliminar"/>
+                        <a href="listausuarios.jsp"><input align="center" type="button" value="Volver"/></a>
                     </p>
                 </form>
             </div>

@@ -118,7 +118,7 @@
                                     out.println("   <td>"
                                             + "<a href='bajadependencia.jsp?dependenciaId="+dependencia.getDependenciaId()+"'><img src='img/borrar.png' alt='Borrar Dependencia' title='Borrar Dependencia'></a>&nbsp;&nbsp;"
                                             + "<a href='modificaciondependencia.jsp?dependenciaId="+dependencia.getDependenciaId()+"'><img src='img/editar.png' alt='Modificar Dependencia' title='Modificar Dependencia'></a>&nbsp;&nbsp;"
-                                            + "<a><img src='img/detalle.png' alt='Ver Detalle de Dependencia' title='Ver Detalle de Dependencia'></a>"
+                                            + "<a href='consultadependencia.jsp?dependenciaId="+dependencia.getDependenciaId()+"'><img src='img/detalle.png' alt='Ver Detalle de Dependencia' title='Ver Detalle de Dependencia'></a>"
                                             + "</td>");
                                     out.println("</tr>");
                                 } 

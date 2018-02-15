@@ -116,7 +116,7 @@
                                     out.println("   <td>"
                                             + "<a href='bajaestado.jsp?estadoId="+estado.getEstadoId()+"'><img src='img/borrar.png' alt='Borrar Estado' title='Borrar Estado'></a>&nbsp;&nbsp;"
                                             + "<a href='modificacionestado.jsp?estadoId="+estado.getEstadoId()+"'><img src='img/editar.png' alt='Modificar Estado' title='Modificar Estado'></a>&nbsp;&nbsp;"
-                                            + "<a><img src='img/detalle.png' alt='Ver Detalle de Estado' title='Ver Detalle de Estado'></a>"
+                                            + "<a href='consultaestado.jsp?estadoId="+estado.getEstadoId()+"'><img src='img/detalle.png' alt='Ver Detalle de Estado' title='Ver Detalle de Estado'></a>"
                                             + "</td>");
                                     out.println("</tr>");
                                 } 

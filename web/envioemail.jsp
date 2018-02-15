@@ -27,7 +27,7 @@
                     <p class="formulario"><label>Origen: </label></p>
                     <p class="formulario"><input name="origen" type="text"  value="<%=configuracion.getIesEmail()%>"/></p>
                     <p class="formulario"><label>Contraseña: </label></p>
-                    <p class="formulario"><input name="contrasena" type="text"/></p>
+                    <p class="formulario"><input name="contrasena" type="password"/></p>
                     <p class="formulario"><label>Destinatario: </label></p>
                     <p class="formulario"><input name="destinatario" type="text"  value="<%=configuracion.getEmpresaConsejeriaEmail()%>"/></p>
                     <p class="formulario"><label>Asunto: </label></p>

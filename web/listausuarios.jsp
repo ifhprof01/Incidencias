@@ -135,6 +135,7 @@
                                     out.println("   <td>"
                                             + "<a href='bajausuario.jsp?usuarioId="+usuario.getUsuarioId()+"'><img src='img/borrar.png' alt='Borrar Usuario' title='Borrar Usuario'></a>&nbsp;&nbsp;"
                                             + "<a href='modificacionusuario.jsp?usuarioId="+usuario.getUsuarioId()+"'><img src='img/editar.png' alt='Modificar Usuario' title='Modificar Usuario'></a>&nbsp;&nbsp;"
+                                            + "<a href='consultausuario.jsp?usuarioId="+usuario.getUsuarioId()+"'><img src='img/detalle.png' alt='Ver Detalle de Usuario' title='Ver Detalle de Usuario'></a>&nbsp;&nbsp;"
                                             + "</td>");
                                     out.println("</tr>");
                                 } 

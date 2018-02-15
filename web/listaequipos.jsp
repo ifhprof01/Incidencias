@@ -147,7 +147,7 @@
                         out.println("   <td>"
                                 + "<a href='bajaequipo.jsp?equipoId=" + equipo.getEquipoId() + "'><img src='img/borrar.png' alt='Borrar Equipo' title='Borrar Equipo'></a>&nbsp;&nbsp;"
                                 + "<a href='modificacionequipo.jsp?equipoId=" + equipo.getEquipoId() + "'><img src='img/editar.png' alt='Modificar Equipo' title='Modificar Equipo'></a>&nbsp;&nbsp;"
-                                + "<a><img src='img/detalle.png' alt='Ver Detalle de Equipo' title='Ver Detalle de Equipo'></a>"
+                                + "<a href='consultaequipo.jsp?equipoId=" + equipo.getEquipoId() + "'><img src='img/detalle.png' alt='Ver Detalle de Equipo' title='Ver Detalle de Equipo'></a>"
                                 + "</td>");
                         out.println("</tr>");
                     }
