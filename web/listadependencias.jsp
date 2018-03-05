@@ -21,27 +21,27 @@
                 <%
                     Integer criterioOrdenacion;
                     Integer orden;
-                    if (session.getAttribute("criterioOrdenacion") == null) {
+                    if (session.getAttribute("criterioOrdenacionDependencia") == null) {
                         criterioOrdenacion = IncidenciasCAD.DEPENDENCIA_CODIGO;
-                        orden = IncidenciasCAD.DESCENDENTE;
+                        orden = IncidenciasCAD.ASCENDENTE;
                     } else {
-                        criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacion");
-                        orden = (Integer) session.getAttribute("orden");
+                        criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacionDependencia");
+                        orden = (Integer) session.getAttribute("ordenDependencia");
                     }
                     if (request.getParameter("actualizarFiltro") != null) {
-                        criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacion"));
-                        orden = Integer.parseInt(request.getParameter("orden"));
-                        session.setAttribute("criterioOrdenacion", criterioOrdenacion);
-                        session.setAttribute("orden", orden);
-                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("codigo")).equals("")) {
-                            session.setAttribute("codigo", request.getParameter("codigo"));
+                        criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacionDependencia"));
+                        orden = Integer.parseInt(request.getParameter("ordenDependencia"));
+                        session.setAttribute("criterioOrdenacionDependencia", criterioOrdenacion);
+                        session.setAttribute("ordenDependencia", orden);
+                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("codigoDependencia")).equals("")) {
+                            session.setAttribute("codigoDependencia", request.getParameter("codigoDependencia"));
                         } else {
-                            session.removeAttribute("codigo");
+                            session.removeAttribute("codigoDependencia");
                         }
-                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("nombre")).equals("")) {
-                            session.setAttribute("nombre", request.getParameter("nombre"));
+                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("nombreDependencia")).equals("")) {
+                            session.setAttribute("nombreDependencia", request.getParameter("nombreDependencia"));
                         } else {
-                            session.removeAttribute("nombre");
+                            session.removeAttribute("nombreDependencia");
                         }
                         
                     }
@@ -50,8 +50,8 @@
                     //out.println("criterioOrdenacion: " + criterioOrdenacion);
                     //out.println("orden " + orden);
                     ArrayList<Dependencia> listaDependencias = iCAD. leerDependencias(
-                            (String)session.getAttribute("codigo"),
-                            (String)session.getAttribute("nombre"),
+                            (String)session.getAttribute("codigoDependencia"),
+                            (String)session.getAttribute("nombreDependencia"),
                             criterioOrdenacion,
                             orden);
                     int cantidadDependenciasPorPagina = 20;
@@ -80,11 +80,11 @@
                     <form method="post" action="listadependencias.jsp">
                         <p class="derecha">
                             <label>Ordenar por</label>
-                            <select name="criterioOrdenacion">
+                            <select name="criterioOrdenacionDependencia">
                                 <option value="<%=IncidenciasCAD.DEPENDENCIA_CODIGO %>" <%if (IncidenciasCAD.DEPENDENCIA_CODIGO == criterioOrdenacion) out.print("selected='selected'");%>>Codigo</option>
                                 <option value="<%=IncidenciasCAD.DEPENDENCIA_NOMBRE %>" <%if (IncidenciasCAD.DEPENDENCIA_NOMBRE == criterioOrdenacion) out.print("selected='selected'");%>>Nombre</option>
                             </select> 
-                            <select name="orden">
+                            <select name="ordenDependencia">
                                 
                                 <option value="<%= IncidenciasCAD.ASCENDENTE%>" <%if (IncidenciasCAD.ASCENDENTE == orden) out.print("selected='selected'");%>>Ascendente</option>
                                 <option value="<%= IncidenciasCAD.DESCENDENTE%>" <%if (IncidenciasCAD.DESCENDENTE == orden) out.print("selected='selected'");%>>Descendente</option>
@@ -101,8 +101,8 @@
                             </tr>
                             <tr>
                                 <input type="hidden" name="actualizarFiltro" value="s"/>
-                                <td><input type="text" name="codigo" value="<%=Utilidades.convertirNullAStringVacio((String)session.getAttribute("codigo"))%>"/></td>
-                                <td><input type="text" name="nombre" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("nombre")))%>"/></td>
+                                <td><input type="text" name="codigoDependencia" value="<%=Utilidades.convertirNullAStringVacio((String)session.getAttribute("codigoDependencia"))%>"/></td>
+                                <td><input type="text" name="nombreDependencia" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("nombreDependencia")))%>"/></td>
                                 <td></td>
                             </tr>
                             <%  

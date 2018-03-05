@@ -48,7 +48,7 @@ public class Utilidades {
         if (sentenciaSQL != null)
             mensaje = mensaje + "Sentencia SQL que ha producido el error: " + sentenciaSQL + "\n";
         LogManager logManager = LogManager.getLogManager();
-        Logger logger = logManager.getLogger("incidencias");
+        Logger logger = logManager.getLogger("org.apache.catalina");
         logger.warning(mensaje);
         return mensaje;
     }

@@ -53,7 +53,7 @@ public class ServletModificacionEquipo extends HttpServlet {
                 iCAD.modificarEquipo(equipo.getEquipoId(), equipo);
                 
                 request.setAttribute("mensajeUsuario", "Equipo modificado correctamente");
-                request.getRequestDispatcher("listaEquipos.jsp").forward(request, response);
+                request.getRequestDispatcher("listaequipos.jsp").forward(request, response);
             } else {
                 Utilidades.mensajeErrorLog(-1, "Datos introducidos erróneos",null);
                 request.setAttribute("mensajeUsuario", "La modificación no se ha podido realizar. Errores detectados:");

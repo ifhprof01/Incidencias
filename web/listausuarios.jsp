@@ -17,20 +17,20 @@
 <%@include file="includes/mensajeusuario.jsp" %>
                 <%
 //                    if (request.getMethod() == "POST") {
-                    Integer criterioOrdenacion;
-                    Integer orden;
-                    if (session.getAttribute("criterioOrdenacion") == null) {
-                        criterioOrdenacion = IncidenciasCAD.USUARIO_CUENTA;
-                        orden = IncidenciasCAD.ASCENDENTE;
+                    Integer criterioOrdenacionUsuarios;
+                    Integer ordenUsuarios;
+                    if (session.getAttribute("criterioOrdenacionUsuarios") == null) {
+                        criterioOrdenacionUsuarios = IncidenciasCAD.USUARIO_CUENTA;
+                        ordenUsuarios = IncidenciasCAD.ASCENDENTE;
                     } else {
-                        criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacion");
-                        orden = (Integer) session.getAttribute("orden");
+                        criterioOrdenacionUsuarios = (Integer) session.getAttribute("criterioOrdenacionUsuarios");
+                        ordenUsuarios = (Integer) session.getAttribute("ordenUsuarios");
                     }
                     if (request.getParameter("actualizarFiltro") != null) {
-                        criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacion"));
-                        orden = Integer.parseInt(request.getParameter("orden"));
-                        session.setAttribute("criterioOrdenacion", criterioOrdenacion);
-                        session.setAttribute("orden", orden);
+                        criterioOrdenacionUsuarios = Integer.parseInt(request.getParameter("criterioOrdenacionUsuarios"));
+                        ordenUsuarios = Integer.parseInt(request.getParameter("ordenUsuarios"));
+                        session.setAttribute("criterioOrdenacionUsuarios", criterioOrdenacionUsuarios);
+                        session.setAttribute("ordenUsuarios", ordenUsuarios);
                         if (!Utilidades.convertirNullAStringVacio(request.getParameter("usuarioId")).equals("")) {
                             session.setAttribute("usuarioId", Integer.parseInt(request.getParameter("usuarioId")));
                         } else {
@@ -41,10 +41,10 @@
                         } else {
                             session.removeAttribute("cuenta");
                         }
-                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("nombre")).equals("")) {
-                            session.setAttribute("nombre", request.getParameter("nombre"));
+                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("nombreUsuario")).equals("")) {
+                            session.setAttribute("nombreUsuario", request.getParameter("nombreUsuario"));
                         } else {
-                            session.removeAttribute("nombre");
+                            session.removeAttribute("nombreUsuario");
                         }
                         if (!Utilidades.convertirNullAStringVacio(request.getParameter("apellido")).equals("")) {
                             session.setAttribute("apellido", request.getParameter("apellido"));
@@ -60,7 +60,7 @@
                     }
                     IncidenciasCAD iCAD = new IncidenciasCAD();
 
-                    ArrayList<Usuario> listaUsuarios=iCAD.leerUsuarios((String)session.getAttribute("cuenta"), (String)session.getAttribute("nombre"), (String)session.getAttribute("apellido"), (String)session.getAttribute("departamento"), criterioOrdenacion, orden);
+                    ArrayList<Usuario> listaUsuarios=iCAD.leerUsuarios((String)session.getAttribute("cuenta"), (String)session.getAttribute("nombreUsuario"), (String)session.getAttribute("apellido"), (String)session.getAttribute("departamento"), criterioOrdenacionUsuarios, ordenUsuarios);
                             
                             
                     int cantidadIncidenciasPorPagina = 20;
@@ -89,15 +89,15 @@
                     <form method="post" action="listausuarios.jsp">
                         <p class="derecha">
                             <label>Ordenar por</label>
-                            <select name="criterioOrdenacion">
-                                <option value="<%=IncidenciasCAD.USUARIO_CUENTA %>" <%if (IncidenciasCAD.USUARIO_CUENTA == criterioOrdenacion) out.print("selected='selected'");%>>Cuenta</option>
-                                <option value="<%=IncidenciasCAD.USUARIO_NOMBRE %>" <%if (IncidenciasCAD.USUARIO_NOMBRE == criterioOrdenacion) out.print("selected='selected'");%>>Nombre</option>
-                                <option value="<%=IncidenciasCAD.USUARIO_APELLIDO %>" <%if (IncidenciasCAD.USUARIO_APELLIDO == criterioOrdenacion) out.print("selected='selected'");%>>Apellido</option>
-                                <option value="<%=IncidenciasCAD.USUARIO_DEPARTAMENTO %>" <%if (IncidenciasCAD.USUARIO_DEPARTAMENTO == criterioOrdenacion) out.print("selected='selected'");%>>Departamento</option>
+                            <select name="criterioOrdenacionUsuarios">
+                                <option value="<%=IncidenciasCAD.USUARIO_CUENTA %>" <%if (IncidenciasCAD.USUARIO_CUENTA == criterioOrdenacionUsuarios) out.print("selected='selected'");%>>Cuenta</option>
+                                <option value="<%=IncidenciasCAD.USUARIO_NOMBRE %>" <%if (IncidenciasCAD.USUARIO_NOMBRE == criterioOrdenacionUsuarios) out.print("selected='selected'");%>>Nombre</option>
+                                <option value="<%=IncidenciasCAD.USUARIO_APELLIDO %>" <%if (IncidenciasCAD.USUARIO_APELLIDO == criterioOrdenacionUsuarios) out.print("selected='selected'");%>>Apellido</option>
+                                <option value="<%=IncidenciasCAD.USUARIO_DEPARTAMENTO %>" <%if (IncidenciasCAD.USUARIO_DEPARTAMENTO == criterioOrdenacionUsuarios) out.print("selected='selected'");%>>Departamento</option>
                             </select> 
-                            <select name="orden">
-                                <option value="<%= IncidenciasCAD.ASCENDENTE%>" <%if (IncidenciasCAD.ASCENDENTE == orden) out.print("selected='selected'");%>>Ascendente</option>
-                                <option value="<%= IncidenciasCAD.DESCENDENTE%>" <%if (IncidenciasCAD.DESCENDENTE == orden) out.print("selected='selected'");%>>Descendente</option>
+                            <select name="ordenUsuarios">
+                                <option value="<%= IncidenciasCAD.ASCENDENTE%>" <%if (IncidenciasCAD.ASCENDENTE == ordenUsuarios) out.print("selected='selected'");%>>Ascendente</option>
+                                <option value="<%= IncidenciasCAD.DESCENDENTE%>" <%if (IncidenciasCAD.DESCENDENTE == ordenUsuarios) out.print("selected='selected'");%>>Descendente</option>
                             </select> 
                             <input type="submit" value="Aplicar Filtro"/>
                         </p>
@@ -114,7 +114,7 @@
                                 <input type="hidden" name="actualizarFiltro" value="s"/>
                             <input type="hidden" name="usuarioId" max="<%=Integer.MAX_VALUE%>" value="<%=Utilidades.convertirAString((Integer)session.getAttribute("usuarioId"))%>"/>
                                 <td><input type="text" name="cuenta" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("cuenta")))%>"/></td>
-                                <td><input type="text" name="nombre" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("nombre")))%>"/></td>
+                                <td><input type="text" name="nombreUsuario" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("nombreUsuario")))%>"/></td>
                                 <td><input type="text" name="apellido" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("apellido")))%>"/></td>
                                 <td><input type="text" name="departamento" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("departamento")))%>"/></td>
                                 <td></td>

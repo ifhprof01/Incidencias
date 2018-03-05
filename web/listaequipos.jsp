@@ -20,26 +20,26 @@
     <%//                    if (request.getMethod() == "POST") {
         Integer criterioOrdenacion;
         Integer orden;
-        if (session.getAttribute("criterioOrdenacion") == null) {
+        if (session.getAttribute("criterioOrdenacionEquipo") == null) {
             criterioOrdenacion = IncidenciasCAD.EQUIPO_NUMERO_ETIQUETA_CONSEJERIA;
             orden = IncidenciasCAD.DESCENDENTE;
         } else {
-            criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacion");
-            orden = (Integer) session.getAttribute("orden");
+            criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacionEquipo");
+            orden = (Integer) session.getAttribute("ordenEquipo");
         }
 
-        if (session.getAttribute("criterioOrdenacion") == null) {
-            criterioOrdenacion = IncidenciasCAD.TIPO_EQUIPO_NOMBRE;
+        if (session.getAttribute("criterioOrdenacionEquipo") == null) {
+            criterioOrdenacion = IncidenciasCAD.EQUIPO_NUMERO_ETIQUETA_CONSEJERIA;
             orden = IncidenciasCAD.ASCENDENTE;
         } else {
-            criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacion");
-            orden = (Integer) session.getAttribute("orden");
+            criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacionEquipo");
+            orden = (Integer) session.getAttribute("ordenEquipo");
         }
         if (request.getParameter("actualizarFiltro") != null) {
-            criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacion"));
-            orden = Integer.parseInt(request.getParameter("orden"));
-            session.setAttribute("criterioOrdenacion", criterioOrdenacion);
-            session.setAttribute("orden", orden);
+            criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacionEquipo"));
+            orden = Integer.parseInt(request.getParameter("ordenEquipo"));
+            session.setAttribute("criterioOrdenacionEquipo", criterioOrdenacion);
+            session.setAttribute("ordenEquipo", orden);
             if (!Utilidades.convertirNullAStringVacio(request.getParameter("numeroEtiquetaConsejeria")).equals("")) {
                 session.setAttribute("numeroEtiquetaConsejeria", request.getParameter("numeroEtiquetaConsejeria"));
             } else {
@@ -70,13 +70,13 @@
     <fieldset>
         <legend>
             <% if (paginaListaEquipos > 1) {%>
-            <a href="listaEquipos.jsp?paginaListaEquipos=<%=paginaListaEquipos - 1%>"><img src='img/izquierda.png' alt='Anterior Pagina' title='Anterior Pagina'></a> 
+            <a href="listaequipos.jsp?paginaListaEquipos=<%=paginaListaEquipos - 1%>"><img src='img/izquierda.png' alt='Anterior Pagina' title='Anterior Pagina'></a> 
                 <% } else {%>
             <a><img src='img/izquierda.png' alt='Anterior Pagina' title='Anterior Pagina'></a> 
                 <% }%>
             Pagina <%=paginaListaEquipos%> de <%=cantidadPaginasListaEquipos%> 
             <% if (paginaListaEquipos < cantidadPaginasListaEquipos) {%>
-            <a href="listaEquipos.jsp?paginaListaEquipos=<%=paginaListaEquipos + 1%>"><img src='img/derecha.png' alt='Siguiente Pagina' title='Siguiente Pagina'></a>
+            <a href="listaequipos.jsp?paginaListaEquipos=<%=paginaListaEquipos + 1%>"><img src='img/derecha.png' alt='Siguiente Pagina' title='Siguiente Pagina'></a>
                 <% } else {%>
             <a><img src='img/derecha.png' alt='Siguiente Pagina' title='Siguiente Pagina'></a>
                 <% }%>
@@ -84,7 +84,7 @@
         <form method="post" action="listaequipos.jsp">
             <p class="derecha">
                 <label>Ordenar por</label>
-                <select name="criterioOrdenacion">
+                <select name="criterioOrdenacionEquipo">
                         <option value="<%=IncidenciasCAD.EQUIPO_NUMERO_ETIQUETA_CONSEJERIA%>" <%if (IncidenciasCAD.EQUIPO_NUMERO_ETIQUETA_CONSEJERIA == criterioOrdenacion) {
                             out.print("selected='selected'");
                         }%>>Numero de Etiqueta de Conserjeria</option>
@@ -92,7 +92,7 @@
                             out.print("selected='selected'");
                         }%>>Nombre de Tipo de Equipo</option>
                 </select> 
-                <select name="orden">
+                <select name="ordenEquipo">
                         <option value="<%= IncidenciasCAD.ASCENDENTE%>" <%if (IncidenciasCAD.ASCENDENTE == orden) {
                             out.print("selected='selected'");
                         }%>>Ascendente</option>

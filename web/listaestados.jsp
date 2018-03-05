@@ -21,20 +21,20 @@
             <div id="content">
 <%@include file="includes/mensajeusuario.jsp" %>
                 <%
-                    Integer criterioOrdenacion;
-                    Integer orden;
-                    if (session.getAttribute("criterioOrdenacion") == null) {
-                        criterioOrdenacion = IncidenciasCAD.ESTADO_CODIGO;
-                        orden = IncidenciasCAD.ASCENDENTE;
+                    Integer criterioOrdenacionEstados;
+                    Integer ordenEstados;
+                    if (session.getAttribute("criterioOrdenacionEstados") == null) {
+                        criterioOrdenacionEstados = IncidenciasCAD.ESTADO_CODIGO;
+                        ordenEstados = IncidenciasCAD.ASCENDENTE;
                     } else {
-                        criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacion");
-                        orden = (Integer) session.getAttribute("orden");
+                        criterioOrdenacionEstados = (Integer) session.getAttribute("criterioOrdenacionEstados");
+                        ordenEstados = (Integer) session.getAttribute("ordenEstados");
                     }
                     if (request.getParameter("actualizarFiltro") != null) {
-                        criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacion"));
-                        orden = Integer.parseInt(request.getParameter("orden"));
-                        session.setAttribute("criterioOrdenacion", criterioOrdenacion);
-                        session.setAttribute("orden", orden);
+                        criterioOrdenacionEstados = Integer.parseInt(request.getParameter("criterioOrdenacionEstados"));
+                        ordenEstados = Integer.parseInt(request.getParameter("ordenEstados"));
+                        session.setAttribute("criterioOrdenacionEstados", criterioOrdenacionEstados);
+                        session.setAttribute("ordenEstados", ordenEstados);
                         if (!Utilidades.convertirNullAStringVacio(request.getParameter("estadoCodigo")).equals("")) {
                             session.setAttribute("estadoCodigo", request.getParameter("estadoCodigo"));
                         } else {
@@ -48,7 +48,7 @@
                     }
                     IncidenciasCAD iCAD = new IncidenciasCAD();
                     //ArrayList<Estado> listaEstados = iCAD.leerEstados();
-                    ArrayList<Estado> listaEstados = iCAD.leerEstados((String)session.getAttribute("estadoCodigo"), (String)session.getAttribute("estadoNombre"), criterioOrdenacion, orden);
+                    ArrayList<Estado> listaEstados = iCAD.leerEstados((String)session.getAttribute("estadoCodigo"), (String)session.getAttribute("estadoNombre"), criterioOrdenacionEstados, ordenEstados);
                     int cantidadEstadosPorPagina = 20;
                     int paginaListaEstados = 4;
                     if (request.getParameter("paginaListaEstados") == null) {
@@ -61,13 +61,13 @@
                 <fieldset>
                     <legend>
                         <% if(paginaListaEstados > 1) {%>
-                            <a href="listaincidencias.jsp?paginaListaIncidencias=<%=paginaListaEstados-1%>"><img src='img/izquierda.png' alt='Anterior Pagina' title='Anterior Pagina'></a> 
+                            <a href="listaestados.jsp?paginaListaEstados=<%=paginaListaEstados-1%>"><img src='img/izquierda.png' alt='Anterior Pagina' title='Anterior Pagina'></a> 
                         <% } else {%>
                             <a><img src='img/izquierda.png' alt='Anterior Pagina' title='Anterior Pagina'></a> 
                         <% } %>
                         Pagina <%=paginaListaEstados%> de <%=cantidadPaginasListaIncidencias%> 
                         <% if(paginaListaEstados < cantidadPaginasListaIncidencias) {%>
-                            <a href="listaincidencias.jsp?paginaListaIncidencias=<%=paginaListaEstados+1%>"><img src='img/derecha.png' alt='Siguiente Pagina' title='Siguiente Pagina'></a>
+                            <a href="listaestados.jsp?paginaListaEstados=<%=paginaListaEstados+1%>"><img src='img/derecha.png' alt='Siguiente Pagina' title='Siguiente Pagina'></a>
                         <% } else {%>
                             <a><img src='img/derecha.png' alt='Siguiente Pagina' title='Siguiente Pagina'></a>
                         <% } %>
@@ -75,13 +75,13 @@
                     <form method="post" action="listaestados.jsp">
                         <p class="derecha">
                             <label>Ordenar por</label>
-                            <select name="criterioOrdenacion">
-                                <option value="<%=IncidenciasCAD.ESTADO_CODIGO %>" <%if (IncidenciasCAD.ESTADO_CODIGO == criterioOrdenacion) out.print("selected='selected'");%>>Código</option>
-                                <option value="<%=IncidenciasCAD.ESTADO_NOMBRE %>" <%if (IncidenciasCAD.ESTADO_NOMBRE == criterioOrdenacion) out.print("selected='selected'");%>>Nombre</option>
+                            <select name="criterioOrdenacionEstados">
+                                <option value="<%=IncidenciasCAD.ESTADO_CODIGO %>" <%if (IncidenciasCAD.ESTADO_CODIGO == criterioOrdenacionEstados) out.print("selected='selected'");%>>Código</option>
+                                <option value="<%=IncidenciasCAD.ESTADO_NOMBRE %>" <%if (IncidenciasCAD.ESTADO_NOMBRE == criterioOrdenacionEstados) out.print("selected='selected'");%>>Nombre</option>
                             </select> 
-                            <select name="orden">
-                                <option value="<%= IncidenciasCAD.ASCENDENTE%>" <%if (IncidenciasCAD.ASCENDENTE == orden) out.print("selected='selected'");%>>Ascendente</option>
-                                <option value="<%= IncidenciasCAD.DESCENDENTE%>" <%if (IncidenciasCAD.DESCENDENTE == orden) out.print("selected='selected'");%>>Descendente</option>
+                            <select name="ordenEstados">
+                                <option value="<%= IncidenciasCAD.ASCENDENTE%>" <%if (IncidenciasCAD.ASCENDENTE == ordenEstados) out.print("selected='selected'");%>>Ascendente</option>
+                                <option value="<%= IncidenciasCAD.DESCENDENTE%>" <%if (IncidenciasCAD.DESCENDENTE == ordenEstados) out.print("selected='selected'");%>>Descendente</option>
                             </select> 
                             <input type="submit" value="Aplicar Filtro"/>
                         </p>

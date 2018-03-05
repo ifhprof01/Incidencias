@@ -4,6 +4,7 @@
     Author     : ifontecha
 --%>
 
+<%@page import="incidenciascad.TipoEquipo"%>
 <%@page import="utilidades.Utilidades"%>
 <%@page import="java.util.Collections"%>
 <%@page import="incidenciascad.Usuario"%>
@@ -25,19 +26,20 @@
     <form action="ServletAltaEquipo" method="post" name="altaEquipo">
         <p class="formulario"><label>Etiqueta de Consejeria: </label></p>
         <p class="formulario"><input name="numeroEtiquetaConsejeria" type="text" /></p>
-        <p class="formulario"><label>TipoEquipo </label></p>
+        <p class="formulario"><label>Tipo de Equipo </label></p>
         <p class="formulario"><select name="tipoEquipoId">
                     <%
                         out.println("<option value=''></option>");
                         IncidenciasCAD iCAD = new IncidenciasCAD();
-                        ArrayList<Equipo> listaEquipos = iCAD.leerEquipos(null,null, IncidenciasCAD.TIPO_EQUIPO_CODIGO,IncidenciasCAD.ASCENDENTE);
-                        for (Equipo equipo : listaEquipos) {
-                            if (Utilidades.convertirNullAStringVacio(request.getParameter("tipoEquipoId")).equals(equipo.getTipoEquipo().toString())) {
-                                out.println("<option value='" + equipo.getTipoEquipo().getNombre()+" - "+equipo.getTipoEquipo().getCodigo()+ "' selected>");
+                        ArrayList<TipoEquipo> listaTiposEquipo = iCAD.leerTiposEquipo(null,null, IncidenciasCAD.TIPO_EQUIPO_CODIGO,IncidenciasCAD.ASCENDENTE);
+                        for (TipoEquipo tipoEquipo : listaTiposEquipo) {
+                            if (Utilidades.convertirNullAStringVacio(request.getParameter("tipoEquipoId")).equals(tipoEquipo.getTipoEquipoId().toString())) {
+                                out.println("<option value='" + tipoEquipo.getTipoEquipoId() + "' selected>");
+                                out.println(tipoEquipo.getCodigo()+ " - " + tipoEquipo.getNombre());
                                 out.println("</option>");
                             } else {
-                             out.println("<option value='" + equipo.getEquipoId()+ "'>");
-                                out.println(equipo.getTipoEquipo().getNombre()+ " - " + equipo.getTipoEquipo().getCodigo());
+                                out.println("<option value='" + tipoEquipo.getTipoEquipoId() + "'>");
+                                out.println(tipoEquipo.getCodigo()+ " - " + tipoEquipo.getNombre());
                                 out.println("</option>");
                             }
                         }

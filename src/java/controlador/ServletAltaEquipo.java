@@ -116,23 +116,12 @@ public class ServletAltaEquipo extends HttpServlet {
 
     protected ArrayList<String> detectarErroresFormulario(HttpServletRequest request) {
         ArrayList<String> listaErrores = new ArrayList();
-        if (Utilidades.convertirNullAStringVacio(request.getParameter("numeroEtiquetaConsejeria")).equals("")) {
-            listaErrores.add("El numero de etiqueta es obligatorio");
-        } else if (request.getParameter("numeroEtiquetaConsejeria").length() > 100) {
-            listaErrores.add("La longitud maxima del numero de etiqueta es 100");
-        } else {
-            try {
-                IncidenciasCAD iCAD = new IncidenciasCAD();
-                Equipo equipo = iCAD.leerEquipo(request.getParameter("numeroEtiquetaConsejeria"));
-              if (equipo == null) {
-                    listaErrores.add("El sistema no reconoce la etiqueta del equipo introducida");
-                }
-            } catch (ExcepcionIncidenciasCAD ex) {
-                listaErrores.add(ex.getMensajeErrorUsuario());
-                Utilidades.mensajeErrorLog(ex.getCodigoErrorSistema(), ex.getMensajeErrorSistema(), ex.getSentenciaSQL());
-            }
-        }
-
+        if (Utilidades.convertirStringVacioANull(request.getParameter("numeroEtiquetaConsejeria")) == null)
+            listaErrores.add("El Número de Etiqueta de la Consejeria es obligatorio");
+        else if (request.getParameter("numeroEtiquetaConsejeria").length() > 100)
+            listaErrores.add("La longitud maxima del Número de Etiqueta de la Consejeria es 100");
+        if (Utilidades.convertirStringVacioANull(request.getParameter("tipoEquipoId")) == null)
+            listaErrores.add("El tipo de equipo es obligatorio");
         return listaErrores;
     }
 

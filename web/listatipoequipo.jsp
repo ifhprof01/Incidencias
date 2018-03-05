@@ -24,27 +24,27 @@
 //                    if (request.getMethod() == "POST") {
                     Integer criterioOrdenacion;
                     Integer orden;
-                    if (session.getAttribute("criterioOrdenacion") == null) {
+                    if (session.getAttribute("criterioOrdenacionTipoEquipo") == null) {
                         criterioOrdenacion = IncidenciasCAD.TIPO_EQUIPO_CODIGO;
-                        orden = IncidenciasCAD.DESCENDENTE;
+                        orden = IncidenciasCAD.ASCENDENTE;
                     } else {
-                        criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacion");
-                        orden = (Integer) session.getAttribute("orden");
+                        criterioOrdenacion = (Integer) session.getAttribute("criterioOrdenacionTipoEquipo");
+                        orden = (Integer) session.getAttribute("ordenTipoEquipo");
                     }
                     if (request.getParameter("actualizarFiltro") != null) {
-                        criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacion"));
-                        orden = Integer.parseInt(request.getParameter("orden"));
-                        session.setAttribute("criterioOrdenacion", criterioOrdenacion);
-                        session.setAttribute("orden", orden);
-                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("codigo")).equals("")) {
-                            session.setAttribute("codigo", request.getParameter("codigo"));
+                        criterioOrdenacion = Integer.parseInt(request.getParameter("criterioOrdenacionTipoEquipo"));
+                        orden = Integer.parseInt(request.getParameter("ordenTipoEquipo"));
+                        session.setAttribute("criterioOrdenacionTipoEquipo", criterioOrdenacion);
+                        session.setAttribute("ordenTipoEquipo", orden);
+                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("codigoTipoEquipo")).equals("")) {
+                            session.setAttribute("codigoTipoEquipo", request.getParameter("codigoTipoEquipo"));
                         } else {
-                            session.removeAttribute("codigo");
+                            session.removeAttribute("codigoTipoEquipo");
                         }
-                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("nombre")).equals("")) {
-                            session.setAttribute("nombre", request.getParameter("nombre"));
+                        if (!Utilidades.convertirNullAStringVacio(request.getParameter("nombreTipoEquipo")).equals("")) {
+                            session.setAttribute("nombreTipoEquipo", request.getParameter("nombreTipoEquipo"));
                         } else {
-                            session.removeAttribute("nombre");
+                            session.removeAttribute("nombreTipoEquipo");
                         }
                     }
                     IncidenciasCAD iCAD = new IncidenciasCAD();
@@ -52,8 +52,8 @@
                     //out.println("criterioOrdenacion: " + criterioOrdenacion);
                     //out.println("orden " + orden);
                     ArrayList<TipoEquipo> listaTipoEquipo = iCAD.leerTiposEquipo(
-                            (String)session.getAttribute("codigo"), 
-                            (String)session.getAttribute("nombre"),
+                            (String)session.getAttribute("codigoTipoEquipo"), 
+                            (String)session.getAttribute("nombreTipoEquipo"),
                             criterioOrdenacion, 
                             orden);
                             
@@ -83,14 +83,15 @@
                     <form method="post" action="listatipoequipo.jsp">
                         <p class="derecha">
                             <label>Ordenar por</label>
-                            <select name="criterioOrdenacion">
+                            <select name="criterioOrdenacionTipoEquipo">
                                 <option value="<%=IncidenciasCAD.TIPO_EQUIPO_CODIGO%>" <%if (IncidenciasCAD.TIPO_EQUIPO_CODIGO == criterioOrdenacion) out.print("selected='selected'");%>>Codigo</option>
                                 <option value="<%=IncidenciasCAD.TIPO_EQUIPO_NOMBRE %>" <%if (IncidenciasCAD.TIPO_EQUIPO_NOMBRE == criterioOrdenacion) out.print("selected='selected'");%>>Nombre</option>                                
                             </select> 
-                            <select name="orden">                              
+                            <select name="ordenTipoEquipo">                              
                                 <option value="<%= IncidenciasCAD.ASCENDENTE%>" <%if (IncidenciasCAD.ASCENDENTE == orden) out.print("selected='selected'");%>>Ascendente</option>
                                 <option value="<%= IncidenciasCAD.DESCENDENTE%>" <%if (IncidenciasCAD.DESCENDENTE == orden) out.print("selected='selected'");%>>Descendente</option>
                             </select> 
+                            <input type="submit" value="Aplicar Filtro"/>
                         </p>
                         <table align="center" border="2" cellspacing="0" style="width: 100%">
                             <tr>
@@ -102,9 +103,9 @@
                             </tr>
                             <tr>
                                 <input type="hidden" name="actualizarFiltro" value="s"/>                               
-                                <td><input type="text" name="codigo" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("codigo")))%>"/></td>
-                                <td><input type="text" name="nombre" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("nombre")))%>"/></td>      
-                                <td><input type="submit" value="Aplicar Filtro"/></td>                              
+                                <td><input type="text" name="codigoTipoEquipo" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("codigoTipoEquipo")))%>"/></td>
+                                <td><input type="text" name="nombreTipoEquipo" value="<%=Utilidades.convertirNullAStringVacio(((String)session.getAttribute("nombreTipoEquipo")))%>"/></td>      
+                                <td></td>                              
                             </tr>
                             <%  
                                 TipoEquipo tipoEquipo;

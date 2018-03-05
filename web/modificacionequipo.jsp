@@ -56,7 +56,7 @@
                     </select></p>
                     <input type="hidden" name="tipoEquipoId" value="<%=equipo.getTipoEquipo().getTipoEquipoId()%>">
                     <p class="botones">
-                        <a href="listaEquipos.jsp"><input align="center" type="button" value="Cancelar"/></a>
+                        <a href="listaequipos.jsp"><input align="center" type="button" value="Cancelar"/></a>
                         <input type="submit" value="Modificar"/>
                     </p>
                 </form>
