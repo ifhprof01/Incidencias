@@ -119,14 +119,24 @@
                         <%
                             out.println("<option value=''></option>");
                             iCAD = new IncidenciasCAD();
-                            ArrayList<Equipo> listaEquipo = iCAD.leerEquipos(null, null, IncidenciasCAD.TIPO_EQUIPO_CODIGO, IncidenciasCAD.ASCENDENTE);
-                            for (Equipo equipo : listaEquipo) {
-                                if (session.getAttribute("tipoEquipoNombre") == equipo.getTipoEquipo().getTipoEquipoId()) {
-                                    out.println("<option value='" + equipo.getTipoEquipo().getTipoEquipoId() + "' title='" + equipo.getTipoEquipo().getNombre() + "' selected>");
+//                            ArrayList<Equipo> listaEquipo = iCAD.leerEquipos(null, null, IncidenciasCAD.TIPO_EQUIPO_CODIGO, IncidenciasCAD.ASCENDENTE);
+//                            for (Equipo equipo : listaEquipo) {
+//                                if (session.getAttribute("tipoEquipoNombre") == equipo.getTipoEquipo().getTipoEquipoId()) {
+//                                    out.println("<option value='" + equipo.getTipoEquipo().getTipoEquipoId() + "' title='" + equipo.getTipoEquipo().getNombre() + "' selected>");
+//                                } else {
+//                                    out.println("<option value='" + equipo.getTipoEquipo().getTipoEquipoId() + "' title='" + equipo.getTipoEquipo().getNombre() + "'>");
+//                                }
+//                                out.println(equipo.getTipoEquipo().getNombre() + " - " + equipo.getTipoEquipo().getCodigo());
+//                                out.println("</option>");
+//                            }
+                            ArrayList<TipoEquipo> listaTiposEquipo = iCAD.leerTiposEquipo(null, null, IncidenciasCAD.TIPO_EQUIPO_CODIGO, IncidenciasCAD.ASCENDENTE);
+                            for (TipoEquipo tipoEquipo : listaTiposEquipo) {
+                                if (session.getAttribute("tipoEquipoNombre") == tipoEquipo.getTipoEquipoId()) {
+                                    out.println("<option value='" + tipoEquipo.getTipoEquipoId() + "' title='" + tipoEquipo.getNombre() + "' selected>");
                                 } else {
-                                    out.println("<option value='" + equipo.getTipoEquipo().getTipoEquipoId() + "' title='" + equipo.getTipoEquipo().getNombre() + "'>");
+                                    out.println("<option value='" + tipoEquipo.getTipoEquipoId() + "' title='" + tipoEquipo.getNombre() + "'>");
                                 }
-                                out.println(equipo.getTipoEquipo().getNombre() + " - " + equipo.getTipoEquipo().getCodigo());
+                                out.println(tipoEquipo.getNombre() + " - " + tipoEquipo.getCodigo());
                                 out.println("</option>");
                             }
                         %>
